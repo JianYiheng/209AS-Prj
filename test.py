@@ -1,13 +1,11 @@
 from tornado.web import Application, RequestHandler
 from tornado.ioloop import IOLoop
+import os
 
 
-class HelloHandler(RequestHandler):
+class HTMLHandler(RequestHandler):
     def get(self):
-        with open('./templates/index.html', 'rb') as f:
-            self.write(f.read())
-        return
-
+        self.render("index.html")
 
 class Handler_2(RequestHandler):
     def post(self):
@@ -21,18 +19,13 @@ class Handler_2(RequestHandler):
     def options(self, *args, **kwargs):
         pass
 
-class Handler_3(RequestHandler):
-    def get(self):
-        with open('./static/js/note.js', 'rb') as f:
-            self.write(f.read())
-        return
-    # get = post
-    def options(self, *args, **kwargs):
-        pass
-
 def make_app():
-    urls = [(r"/", HelloHandler), (r"/text", Handler_2), (r"/note.js", Handler_3)]
-    return Application(urls, debug=True)
+    handlers = [(r"/", HTMLHandler), (r"/text", Handler_2)]
+    settings = {
+      "template_path": os.path.join(os.path.dirname(__file__), "templates"),
+      "static_path": os.path.join(os.path.dirname(__file__), "static")
+    }
+    return Application(handlers, **settings, debug=True)
 
 
 if __name__ == '__main__':
