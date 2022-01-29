@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Access-Control-Allow-Origin" content="http://localhost:3000">
+<!--   <link rel="stylesheet" type="text/css" href="C:/Users/xushe/Desktop/Tornado+VUE/static/css/style.css"> -->
+<style type="text/css">body { 
+  font-size: 14px;
+  min-width: 300px;
+  font-family: 'Ubuntu', sans-serif;
+  background: #f3f3f3;
+  margin: 0;
+  -webkit-user-select: none;
+  user-select: none;
+  padding: 70px 30px 0px 30px;
+  font-weight: 100; }
+
+  .card {
+  margin: 20px 0;
+  background: #ffffff;
+  border: 10px;
+  padding: 20px; }
+
+
+
+
+button.btn { 
+  display: block; 
+  padding: 15px 20px;
+  font-family: 'Ubuntu', sans-serif;
+  margin: 15px 0px;
+  width: 100%;
+  box-shadow: 0px 1px 3px rgb(217, 217, 217);
+  border: none; 
+  border-radius: 2px; }
+
+.edit{
+  text-align:right
+}
+
+div.rot {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    border: 2px solid transparent;
+    border-top: 2px solid #000;
+    border-left: 2px solid #000;
+    animation: rotate 3s infinite linear;
+    float: left;
+}
+@keyframes rotate {
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+
+
+
+h1 { 
+  text-align: center; 
+  margin: 15px 0px; }
+h2 { 
+  text-align: center; 
+  margin: 15px 0px; 
+  color: #b5b5b5; }
+h3 { 
+  text-align: center; 
+  font-size: 14px;
+  margin: 30px 0px 30px 0px; 
+  color: #b5b5b5; }
+h4.card_title { margin: 5px 0px 15px 0px; float: left;}
+
+.editing_title {color:#000000; font-size: 25px;}
+
+
+.shadow-pop-tr {
+  -webkit-animation: shadow-pop-tr 0.3s cubic-bezier(0.470, 0.000, 0.745, 0.715) both;
+          animation: shadow-pop-tr 0.3s cubic-bezier(0.470, 0.000, 0.745, 0.715) both;
+   background-color: #00f597;
+}
+@-webkit-keyframes shadow-pop-tr {
+  0% {
+    -webkit-box-shadow: 0 0 #3e3e3e, 0 0 #3e3e3e, 0 0 #3e3e3e, 0 0 #3e3e3e, 0 0 #3e3e3e, 0 0 #3e3e3e, 0 0 #3e3e3e, 0 0 #3e3e3e;
+            box-shadow: 0 0 #3e3e3e, 0 0 #3e3e3e, 0 0 #3e3e3e, 0 0 #3e3e3e, 0 0 #3e3e3e, 0 0 #3e3e3e, 0 0 #3e3e3e, 0 0 #3e3e3e;
+    -webkit-transform: translateX(0) translateY(0);
+            transform: translateX(0) translateY(0);
+  }
+  100% {
+    -webkit-box-shadow: 1px -1px #3e3e3e, 2px -2px #3e3e3e, 3px -3px #3e3e3e, 4px -4px #3e3e3e, 5px -5px #3e3e3e, 6px -6px #3e3e3e, 7px -7px #3e3e3e, 8px -8px #3e3e3e;
+            box-shadow: 1px -1px #3e3e3e, 2px -2px #3e3e3e, 3px -3px #3e3e3e, 4px -4px #3e3e3e, 5px -5px #3e3e3e, 6px -6px #3e3e3e, 7px -7px #3e3e3e, 8px -8px #3e3e3e;
+    -webkit-transform: translateX(-8px) translateY(8px);
+            transform: translateX(-8px) translateY(8px);
+  }
+}
+@keyframes shadow-pop-tr {
+  0% {
+    -webkit-box-shadow: 0 0 #3e3e3e, 0 0 #3e3e3e, 0 0 #3e3e3e, 0 0 #3e3e3e, 0 0 #3e3e3e, 0 0 #3e3e3e, 0 0 #3e3e3e, 0 0 #3e3e3e;
+            box-shadow: 0 0 #3e3e3e, 0 0 #3e3e3e, 0 0 #3e3e3e, 0 0 #3e3e3e, 0 0 #3e3e3e, 0 0 #3e3e3e, 0 0 #3e3e3e, 0 0 #3e3e3e;
+    -webkit-transform: translateX(0) translateY(0);
+            transform: translateX(0) translateY(0);
+  }
+  100% {
+    -webkit-box-shadow: 1px -1px #3e3e3e, 2px -2px #3e3e3e, 3px -3px #3e3e3e, 4px -4px #3e3e3e, 5px -5px #3e3e3e, 6px -6px #3e3e3e, 7px -7px #3e3e3e, 8px -8px #3e3e3e;
+            box-shadow: 1px -1px #3e3e3e, 2px -2px #3e3e3e, 3px -3px #3e3e3e, 4px -4px #3e3e3e, 5px -5px #3e3e3e, 6px -6px #3e3e3e, 7px -7px #3e3e3e, 8px -8px #3e3e3e;
+    -webkit-transform: translateX(-8px) translateY(8px);
+            transform: translateX(-8px) translateY(8px);
+  }
+}
+
+
+p.card-text { margin: 25px 0px 0px 0px; }
+.card { 
+  border-radius: 3px; 
+  box-shadow: 0px 2px 3px rgb(200, 200, 200); }
+.alert { display: none; }
+.active { display: block; }
+.col-sm-12 > div {
+  max-width: 600px;
+  margin: 0px auto; 
+}</style>
+
+  <title>Notepad for 209AS HCI</title>
+  <link rel="icon" href="data:image/ico;base64,aWNv">
+</head>
+<body>
+
+
+<div id="app">
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-12">
+        <div>
+          <h1>[[title]]</h1>
+          <h2>[[subtitle]]</h2>
+          <h3>Total tasks: [[ notes.length ]]</h3>
+          <div class="form">
+
+            <div class="form-group">
+              <!-- <label>Note Title</label> -->
+              <h4>Note Title</h4>
+              <input class="form-control" type="text" v-model="note.title" required>
+            </div>
+
+
+            <div class="form-group">
+              <!-- <label>Note Text</label> -->
+              <h4>Note Text</h4>
+              <textarea rows="3" class="form-control" v-model="note.text" required></textarea>
+            </div>
+
+
+            <button class="btn" @click="addNote"> [[main_btn_text]] </button>
+            <!-- "btn btn-primary" -->
+
+            <div class="alert alert-danger text-center" role="alert" v-bind:class="{ active: isActive }">All fields are Required</div>
+
+
+
+            
+          </div>
+
+
+          <div class="row">
+            <div class="col-sm-6 note" v-for="(note, index) in notes">
+              <div class="card">
+
+                <div>
+                  <button class="close" @click="removeNote(index)">&times;</button>
+                  
+                  <div class="edit">
+                    <button @click="editNote(index)">Edit</button>
+                  </div>
+                </div>
+
+
+                <div :class="[isEditing && (index === editingIdx)? 'shadow-pop-tr':'', 'card-block']">
+                  <div>
+                    <div v-show="isEditing && (index === editingIdx)" class="rot" ></div>
+                    <h4 :class="[isEditing && (index === editingIdx)? 'editing_title':'', 'card_title']">[[note.title]]</h4>
+                  </div>
+                  <br>
+                  <h6 class="card-subtitle mb-2 text-muted">[[note.date]]</h6>
+                  <p class="card-text">[[note.text]]</p>
+                </div>
+
+              </div>
+            </div>
+          </div>
+
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<!-- <script src="https://localhost:3000/note.js"></script> -->
+<!-- <script type = "text/javascript" src="C:/Users/xushe/Desktop/Tornado+VUE/static/js/note.js"></script> -->
+<script > var app = new Vue({
+      el: '#app',
+      delimiters: ['[[', ']]'],
+      data: {
+        isActive: false,
+        title: 'Notepad',
+        main_btn_text : "Save Note",
+        subtitle: 'Using Vue JS',
+        note: {
+          title: '',
+          text: ''
+        },
+        isEditing:false,
+        editingIdx:0,
+        notes: [
+          {
+            title: 'Example_1',
+            text: 'This is a Note! :)',
+            date: new Date(Date.now()).toLocaleString()
+          },
+          {
+            title: 'Example_1',
+            text: 'Another Note!',
+            date: new Date(Date.now()).toLocaleString()
+          }
+        ]
+      },
+      methods: {
+        addNote() {
+          let {
+            text,
+            title
+          } = this.note
+
+          axios.post('http://localhost:3000/text', {
+              title: title,
+              text: text,
+              date: new Date(Date.now()).toLocaleString()
+            })
+            .then(function (response) {
+              console.log(response);
+            })
+            .catch(function (error) {
+              console.log(error);
+            });
+          // axios.get('http://localhost:3000/')
+          //   .then(function (response) {
+          //     console.log(response);
+          //   })
+          //   .catch(function (error) {
+          //     console.log(error);
+          //   });
+
+          console.log(this.note, this.isEditing, this.note.text.length > 0 && this.note.title.length > 0);
+          
+          if (this.isEditing)
+          {
+            this.main_btn_text = "Save Note";
+            this.isEditing = false;
+            this.notes[this.editingIdx] = {
+              text,
+              title,
+              date: new Date(Date.now()).toLocaleString()
+            };
+            this.isActive = false;
+                  this.note.text = "";
+                  this.note.title = "";
+          }
+
+
+          if (this.note.text.length > 0 && this.note.title.length > 0) {
+            {
+              this.notes.push({
+              text,
+              title,
+              date: new Date(Date.now()).toLocaleString()
+            })
+            }
+            
+                this.isActive = false;
+                this.note.text = "";
+                this.note.title = "";
+          } 
+          else {
+            this.isActive = true;
+          }
+
+        },
+
+        removeNote(index) {
+          this.notes.splice(index, 1)
+        },
+
+        editNote(index) {
+          var data_item = this.notes[index];
+          this.note["title"] = data_item["title"];
+          this.note["text"] = data_item["text"]; 
+          this.isEditing = true;
+          this.editingIdx = index;
+
+          // this.removeNote(index);
+          this.main_btn_text = "Save Edition";
+        }
+
+
+
+      }
+    })
+</script>
+
+</body>
+</html>
