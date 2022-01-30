@@ -6,89 +6,91 @@
   <meta http-equiv="Access-Control-Allow-Origin" content="http://localhost:3000">
 <!--   <link rel="stylesheet" type="text/css" href="C:/Users/xushe/Desktop/Tornado+VUE/static/css/style.css"> -->
 
-  <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
-  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-
-  <script src="{{ static_url('js/note.js') }}" defer="defer" type="text/javascript"></script>
+  <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900|Material+Icons" rel="stylesheet" type="text/css">
+  <link href="https://cdn.jsdelivr.net/npm/quasar@2.4.13/dist/quasar.prod.css" rel="stylesheet" type="text/css">
 
   <title>Notepad for 209AS HCI</title>
   <link rel="icon" href="data:image/ico;base64,aWNv">
 </head>
+
 <body>
 
-
-<div id="app">
-  <div class="container">
-    <div class="row">
-      <div class="col-sm-12">
-        <div>
-          <h1>[[title]]</h1>
-          <h2>[[subtitle]]</h2>
-          <h3>Total tasks: [[ notes.length ]]</h3>
-          <div class="form">
-
-            <div class="form-group">
-              <!-- <label>Note Title</label> -->
-              <h4>Note Title</h4>
-              <input class="form-control" type="text" v-model="note.title" required>
-            </div>
-
-
-            <div class="form-group">
-              <!-- <label>Note Text</label> -->
-              <h4>Note Text</h4>
-              <textarea rows="3" class="form-control" v-model="note.text" required></textarea>
-            </div>
-
-
-            <button class="btn" @click="addNote"> [[main_btn_text]] </button>
-            <!-- "btn btn-primary" -->
-
-            <div class="alert alert-danger text-center" role="alert" v-bind:class="{ active: isActive }">All fields are Required</div>
-
-
-
-            
-          </div>
-
-
-          <div class="row">
-            <div class="col-sm-6 note" v-for="(note, index) in notes">
-              <div class="card">
-
-                <div>
-                  <button class="close" @click="removeNote(index)">&times;</button>
-                  
-                  <div class="edit">
-                    <button @click="editNote(index)">Edit</button>
-                  </div>
-                </div>
-
-
-                <div :class="[isEditing && (index === editingIdx)? 'shadow-pop-tr':'', 'card-block']">
-                  <div>
-                    <div v-show="isEditing && (index === editingIdx)" class="rot" ></div>
-                    <h4 :class="[isEditing && (index === editingIdx)? 'editing_title':'', 'card_title']">[[note.title]]</h4>
-                  </div>
-                  <br>
-                  <h6 class="card-subtitle mb-2 text-muted">[[note.date]]</h6>
-                  <p class="card-text">[[note.text]]</p>
-                </div>
-
-              </div>
-            </div>
-          </div>
-
-
-        </div>
-      </div>
+  <div id="q-app" style="min-height: 100vh;">
+    <div class="q-pa-md row items-start q-gutter-md">
+      <q-card class="my-card full-height" inline style="width: 500px">
+        <q-card-section class="bg-primary text-white">
+          <div class="text-h6">[[ newnote.title ]]</div>
+          <q-popup-edit v-model="newnote.title" title="Edit the title" auto-save v-slot="scope">
+                <q-input v-model="scope.value" dense autofocus counter @keyup.enter="scope.set"></q-input>
+          </q-popup-edit>
+          <div class="text-subtitle2">by  [[ newnote.author ]]</div>
+        </q-card-section>
+  
+        <q-card-section>
+          <div v-html="newnote.body"></div>
+              <q-popup-edit
+                buttons
+                v-model="newnote.body"
+                v-slot="scope"
+              >
+                <q-editor
+                  v-model="scope.value"
+                  min-height="8rem"
+                  autofocus
+                  @keyup.enter.stop
+                ></q-editor>
+              </q-popup-edit>
+        </q-card-section>
+        
+        <q-separator></q-separator>
+        
+        <q-card-actions align='right'>
+          <q-btn flat @click="newNote(note)">New</q-btn>
+        </q-card-actions>
+  
+      </q-card>
+      
+      <q-card v-for="(note, index) in notes" class="my-card">
+        <q-card-section class="bg-primary text-white">
+          <div class="text-h6">[[ note.title ]]</div>
+          <q-popup-edit v-model="note.title" title="Edit the title" auto-save v-slot="scope">
+                <q-input v-model="scope.value" dense autofocus counter @keyup.enter="scope.set"></q-input>
+          </q-popup-edit>
+          <div class="text-subtitle2">by  [[ note.author ]]</div>
+        </q-card-section>
+  
+        <q-card-section>
+          <div v-html="note.body"></div>
+              <q-popup-edit
+                buttons
+                v-model="note.body"
+                v-slot="scope"
+              >
+                <q-editor
+                  v-model="scope.value"
+                  min-height="8rem"
+                  autofocus
+                  @keyup.enter.stop
+                ></q-editor>
+              </q-popup-edit>
+        </q-card-section>
+        
+        <q-separator></q-separator>
+        
+        <q-card-actions align='right'>
+          <q-btn flat @click="removeNote(index)">delete</q-btn>
+        </q-card-actions>
+  
+      </q-card>
+  
     </div>
   </div>
-</div>
 
+  <script src="https://cdn.jsdelivr.net/npm/vue@3/dist/vue.global.prod.js" ></script>
+  <script src="https://cdn.jsdelivr.net/npm/quasar@2.4.13/dist/quasar.umd.prod.js"></script>
+  <script src="{{ static_url('js/note.js') }}" type="text/javascript"></script>
 
-<!-- <script src="https://localhost:3000/note.js"></script> -->
-<!-- <script type = "text/javascript" src="C:/Users/xushe/Desktop/Tornado+VUE/static/js/note.js"></script> -->
 
 </body>
+
 </html>

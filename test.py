@@ -22,8 +22,8 @@ class Handler_2(RequestHandler):
 def make_app():
     handlers = [(r"/", HTMLHandler), (r"/text", Handler_2)]
     settings = {
-      "template_path": os.path.join(os.path.dirname(__file__), "templates"),
-      "static_path": os.path.join(os.path.dirname(__file__), "static")
+        "template_path": os.path.join(os.path.dirname(__file__), "templates"),
+        "static_path": os.path.join(os.path.dirname(__file__), "static")
     }
     return Application(handlers, **settings, debug=True)
 
