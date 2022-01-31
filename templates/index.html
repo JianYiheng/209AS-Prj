@@ -23,7 +23,6 @@
           <q-popup-edit v-model="newnote.title" title="Edit the title" auto-save v-slot="scope">
                 <q-input v-model="scope.value" dense autofocus counter @keyup.enter="scope.set"></q-input>
           </q-popup-edit>
-          <div class="text-subtitle2">by  [[ newnote.author ]]</div>
         </q-card-section>
   
         <q-card-section>
