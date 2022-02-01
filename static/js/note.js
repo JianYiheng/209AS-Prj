@@ -36,7 +36,8 @@ var app = new Vue({
       axios.post('http://localhost:3000/text', {
           title: title,
           text: text,
-          date: new Date(Date.now()).toLocaleString()
+          contentType: 'application/x-www-form-urlencoded',
+          date: new Date(Date.now()).toLocaleString(),
         })
         .then(function (response) {
           console.log(response);
