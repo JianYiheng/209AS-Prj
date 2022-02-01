@@ -30,7 +30,7 @@ const app = Vue.createApp({
       this.newnote.title = "New Title";
       this.newnote.body = "New Note";
 
-      axios.post('/new', {
+      axios.post('/update', {
         title: title,
         body: body,
         index: 0 
@@ -49,10 +49,20 @@ const app = Vue.createApp({
         body
       } = this.notes[index]
 
-      axios.post('/update', {
-        title: title,
-        body: body,
-        index: index
+      // axios.post('/update', {
+      //   title: title,
+      //   body: body,
+      //   index: index
+      // })
+      axios({
+        method:'post',
+        url: '/update',
+        data:{
+          title: title,
+          body: body,
+          index: index,
+        },
+        contentType:'application/x-www-form-urlencoded'
       })
       .then(function (response) {
         console.log(response.data);

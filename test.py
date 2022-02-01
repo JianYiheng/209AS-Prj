@@ -1,6 +1,7 @@
 from tornado.web import Application, RequestHandler
 from tornado.ioloop import IOLoop
 import os
+import json
 
 
 class HTMLHandler(RequestHandler):
@@ -9,7 +10,13 @@ class HTMLHandler(RequestHandler):
 
 class UpdateHandler(RequestHandler):
     def post(self):
-        print({k:''.join(v) for k,v in  self.request.arguments.items()})
+        data = json.loads(self.request.body.decode("utf-8"))
+        print(data)
+        print(data.get("title"))
+
+
+        self.write('OK')
+        # print({k:''.join(v) for k,v in .items()})
         return
     get = post
 
