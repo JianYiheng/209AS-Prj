@@ -10,8 +10,7 @@ const app = Vue.createApp({
       },
       newnote: {
         title: 'New Title',
-        body: 'New Note',
-        author: 'You'
+        body: 'New Note'
       },
       notes: []
     };
@@ -19,23 +18,49 @@ const app = Vue.createApp({
   methods: {
     newNote() {
       let {
-        // this.newnote.title,
-        // this.newnote.body,
-        // this.newnote.author
         title,
-        body,
-        author
+        body
       } = this.newnote
       
       this.notes.push({
         title,
-        body,
-        author
+        body
       });
       
       this.newnote.title = "New Title";
       this.newnote.body = "New Note";
-      this.newnote.author = "";
+
+      axios.post('/new', {
+        title: title,
+        body: body,
+        index: 0 
+      })
+      .then(function (response) {
+        console.log(response.data);
+        return response.data;
+      })
+      .catch(function (error) {
+        alert(error.data);
+      })
+    },
+    updateNote(index) {
+      let {
+        title,
+        body
+      } = this.notes[index]
+
+      axios.post('/update', {
+        title: title,
+        body: body,
+        index: index
+      })
+      .then(function (response) {
+        console.log(response.data);
+        return response.data;
+      })
+      .catch(function (error) {
+        alert(error.data);
+      });
     },
     removeNote(index) {
       this.notes.splice(index, 1);

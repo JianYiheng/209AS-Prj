@@ -7,12 +7,9 @@ class HTMLHandler(RequestHandler):
     def get(self):
         self.render("index.html")
 
-class Handler_2(RequestHandler):
+class UpdateHandler(RequestHandler):
     def post(self):
-        a = self.get_argument('title')
-        b = self.get_argument('text')
-        c = self.get_argument('date')
-        print(a,b,c)
+        print({k:''.join(v) for k,v in  self.request.arguments.items()})
         return
     get = post
 
@@ -20,7 +17,7 @@ class Handler_2(RequestHandler):
         pass
 
 def make_app():
-    handlers = [(r"/", HTMLHandler), (r"/text", Handler_2)]
+    handlers = [(r"/", HTMLHandler), (r"/update", UpdateHandler)]
     settings = {
         "template_path": os.path.join(os.path.dirname(__file__), "templates"),
         "static_path": os.path.join(os.path.dirname(__file__), "static")
