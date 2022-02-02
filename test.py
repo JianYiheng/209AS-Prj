@@ -3,6 +3,7 @@ from tornado.ioloop import IOLoop
 import os
 import json
 
+saved_notes = []
 
 class HTMLHandler(RequestHandler):
     def get(self):
@@ -11,8 +12,8 @@ class HTMLHandler(RequestHandler):
 class UpdateHandler(RequestHandler):
     def post(self):
         data = json.loads(self.request.body.decode("utf-8"))
-        print(data)
-        print(data.get("title"))
+        # print(data)
+        # print(data.get("title"))
 
 
         self.write('OK')

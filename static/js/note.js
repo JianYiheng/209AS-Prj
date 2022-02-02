@@ -15,6 +15,11 @@ const app = Vue.createApp({
       notes: []
     };
   },
+  mounted:function()
+  {
+    this.recoverCache();
+  },
+
   methods: {
     newNote() {
       let {
@@ -42,6 +47,8 @@ const app = Vue.createApp({
       .catch(function (error) {
         alert(error.data);
       })
+
+
     },
     updateNote(index) {
       let {
@@ -71,12 +78,32 @@ const app = Vue.createApp({
       .catch(function (error) {
         alert(error.data);
       });
+
+      var storage=window.localStorage;
+      storage[title] = body;
     },
     removeNote(index) {
+      var storage=window.localStorage;
+      storage.removeItem(this.notes[index]['title']);
       this.notes.splice(index, 1);
+
+    },
+    recoverCache()
+    {
+      var storage=window.localStorage;
+      for (var i = 0; i < localStorage.length; i++) {
+    var key = localStorage.key(i); //获取本地存储的Key
+    
+    this.notes.push({
+        title:key,
+        body: localStorage.getItem(key)
+      });
+      }
     },
   },
 });
 
 app.use(Quasar, { config: {} });
 app.mount("#q-app");
+
+
