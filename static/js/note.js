@@ -47,7 +47,8 @@ const app = Vue.createApp({
       .catch(function (error) {
         alert(error.data);
       })
-
+      var storage=window.localStorage;
+      storage[title] = body;
 
     },
     updateNote(index) {
