@@ -3,8 +3,6 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <!-- <meta http-equiv="Access-Control-Allow-Origin" content="http://localhost:3000"> -->
-<!--   <link rel="stylesheet" type="text/css" href="C:/Users/xushe/Desktop/Tornado+VUE/static/css/style.css"> -->
 
   <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900|Material+Icons" rel="stylesheet" type="text/css">
   <link href="https://cdn.jsdelivr.net/npm/quasar@2.4.13/dist/quasar.prod.css" rel="stylesheet" type="text/css">
@@ -16,6 +14,17 @@
 <body>
 
   <div id="q-app" style="min-height: 100vh;">
+  
+    <div class="q-pa-md q-gutter-md">
+      <q-btn color="teal" size="sm" label="Resnet">
+          <q-badge color="orange" floating transparent>
+            6
+          </q-badge>
+      </q-btn>
+    </div>
+
+  <q-separator color="orange" inset></q-separator>
+
     <div class="q-pa-md row items-start q-gutter-md">
       <q-card v-for="(note, index) in notes" class="my-card" style="width: 500px">
       <q-card-section class="bg-primary text-white">
