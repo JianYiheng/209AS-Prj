@@ -211,19 +211,21 @@ const app = Vue.createApp({
       note.updateData = Date.now();
       return note;
     },
-    saveNoteBk (note) {
+    async saveNoteBk (note) {
       var new_note = {};
       new_note =  Object.assign({}, note);
 
-      axios({
+      new_note = await axios({
         method: 'post',
         url: 'getNote',
         data: note,
         params: {'type': 2}
       })
       .then(function (response) {
-        new_note = response.data.data;//.data;
+        //new_note['keywords'] = response.data.data['keywords'];//.data;
         console.log(response.data.data);
+        console.log('Call back data');
+        return response.data.data
       })
       .catch(function (error) {})
 
@@ -238,11 +240,11 @@ const app = Vue.createApp({
         this.notes[index] = new_obj;
       }
     },
-    saveNote (cur_note, index) {
+    async saveNote (cur_note, index) {
       var note = {};
       note = this.updateNote(cur_note);
 
-      var note_bk =  this.saveNoteBk (note);
+      var note_bk =  await this.saveNoteBk (note);
       //var note_bk =              //this.getNote(note.noteId);
       
       console.log(note_bk);
