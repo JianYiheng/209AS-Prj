@@ -4,25 +4,47 @@ const app = Vue.createApp({
   },
   data() {
     return {
-      note: {
-        noteid: '',
-        title: '',
-        body: '',
-        updateDate: '',
-        editStatus: false,
+      tag: {
+        name: '',
+        num: ''
       },
-      newnote: {
-        noteid: '',
+      tags: [{
+        name: 'abc',
+        num: 6
+      }, {
+        name: 'def',
+        num: 12
+      }],
+      note: {
+        noteId: '',
         title: '',
         body: '',
+        keywords: '',
         updateDate: '',
         editStatus: false,
       },
       notes: [
         {
-          noteid: '01010011',
+          noteId: '01010011',
           title: 'demo title',
           body: 'demo body',
+          keywords: ['a', 'b', 'c', 'd'],
+          updateDate: 'demo date',
+          editStatus: false,
+        },
+        {
+          noteId: '01010011',
+          title: 'demo title',
+          body: 'demo body',
+          keywords: 'abcd',
+          updateDate: 'demo date',
+          editStatus: false,
+        },
+        {
+          noteId: '01010011',
+          title: 'demo title',
+          body: 'demo body',
+          keywords: 'abcd',
           updateDate: 'demo date',
           editStatus: false,
         }
