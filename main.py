@@ -62,7 +62,7 @@ class UploadNoteHandler(RequestHandler):
             return
         elif int(dtype) == 1:
             note_id = self.get_argument('noteId')
-            ret_dict = {'data': id_note[note_id]}
+            ret_dict = {'data': id_note[note_id].gen_dict()}
             ret_json = json.dumps(ret_dict)
             self.write(ret_json)
             return
