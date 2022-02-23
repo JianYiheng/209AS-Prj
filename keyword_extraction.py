@@ -91,7 +91,7 @@ class Note:
         ret["body"] = self.body
         ret["noteId"] = self.noteId
         ret["updateDate"] = self.updateDate
-        ret["keyword"] = self.self.keywords
+        ret["keyword"] = self.keywords
         return ret
 
 id_note = {}
