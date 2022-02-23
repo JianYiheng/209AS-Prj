@@ -167,22 +167,28 @@ const app = Vue.createApp({
       })
     },
 
+    /* ****************************************** */
+    /* ADD and UPDATE functionability             */
     resetNewNote () {
       this.newnote.title = "New Note Title";
       this.newnote.body = "New Note Text";
+      this.newnote.updateDate = '';
+      this.newnote.noteId = '';
+      this.newnote.editStatus = false;
     },
     updateNote (note) {
-      if (note.noteId == '') {
+      var note_s = Object.create(note);
+      if (note_s.noteId == '') {
         var noteId = (+new Date).toString(36).slice(-8);
-        note.noteId = noteId;
+        note_s.noteId = noteId;
       }
-      note.updateData = Date.now();
-      return note;
+      note_s.updateDate = Date.now();
+      return note_s;
     },
     saveNoteBk (note) {
       axios({
         method: 'post',
-        url: 'getNote',
+        url: '/getNote',
         data: note
       })
       .then(function (response) {
@@ -194,17 +200,18 @@ const app = Vue.createApp({
     },
     saveNoteJs (note, index) {
       if (index == -1) {
-        this.notes.push(Object.create(note));
+        this.notes.push(note);
       } else {
-        this.notes[index] = Object.create(note);
+        this.notes[index] = note;
       }
     },
     saveNote (note, index) {
-      note = this.updateNote(note);
-      this.saveNoteJs (note, index);
-      this.saveNoteBk (note);
-      this.resetNetNew ();
+      var note_s = this.updateNote(note);
+      this.saveNoteJs (note_s, index);
+      this.saveNoteBk (note_s);
+      this.resetNewNote ();
     },
+    /* ****************************************** */
 
     removeNoteJs (index) {
       this.notes.splice(index, 1);
@@ -219,8 +226,8 @@ const app = Vue.createApp({
       .catch(function (error) {})
     },
     removeNote(note, index) {
-      var storage=window.localStorage;
-      storage.removeItem(this.notes[index]['title']);
+      // var storage=window.localStorage;
+      // storage.removeItem(this.notes[index]['title']);
 
       this.removeNoteJs(index);
       this.removeNoteBk(note.noteId);
