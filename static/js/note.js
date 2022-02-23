@@ -144,7 +144,7 @@ const app = Vue.createApp({
       axios({
         method: 'get',
         url: '/getNote',
-        params: 0
+        params: {'type': 0}
       })
       .then(function (response) {
         this.notes = response.data;
@@ -153,17 +153,29 @@ const app = Vue.createApp({
         // alert(error.data);
       })
     },
+
     getNote (noteId) {
       axios({
         method: 'get',
         url: '/getNote',
         data: noteId,
-        params: 1
+        params: {'type': 1}
       })
       .then(function (response) {
         return response.data;
       })
-      .catch(funcction (error))
+      .catch(function (error) {})
+    },
+
+    deleteNote (noteId) {
+      axios({
+        method: 'post',
+        url: '/getNote',
+        data: noteId,
+        params: {'type': 3}
+      })
+      .then(function (response) {})
+      .catch(function (error) {});
     },
 
     selectByKw (kw) {
@@ -204,7 +216,8 @@ const app = Vue.createApp({
       axios({
         method: 'post',
         url: 'getNote',
-        data: note
+        data: note,
+        params: {'type': 2}
       })
       .then(function (response) {})
       .catch(function (error) {})
@@ -223,12 +236,12 @@ const app = Vue.createApp({
       note = this.updateNote(cur_note);
       this.saveNoteBk (note);
       
-      var note_bk = getNote(note.noteId);
+      var note_bk = this.getNote(note.noteId);
       this.saveNoteJs (note_bk, index);
 
       this.resetNewNote ();
 
-      getKwAll();
+      this.getKwAll();
       console.log(note);
     },
 
