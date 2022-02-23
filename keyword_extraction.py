@@ -18,7 +18,11 @@ def extract_from_para(note, top_k=5):
 
     sen_tokenize_res = sent_tokenize(note.body)
     filter_list = {'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday',
-                   'mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'}
+                   'mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun',
+                   'a', 'abbr'}
+    net_label = ['a', 'abbr', 'acronym', 'address', 'applet', 'area', 'article', 'aside', 'audio', 'b', 'base', 'basefont', 'bdi', 'bdo', 'big', 'blockquote', 'body', 'br', 'button', 'canvas', 'caption', 'center', 'cite', 'code', 'col', 'colgroup', 'command', 'datalist', 'dd', 'del', 'details', 'dfn', 'dialog', 'dir', 'div', 'dl', 'dt', 'em', 'embed', 'fieldset', 'figcaption', 'figure', 'figure', 'font', 'footer', 'form', 'frame', 'frameset', 'h1', 'h6', 'head', 'header', 'hr', 'html', 'i', 'iframe', 'img', 'input', 'ins', 'kbd', 'keygen', 'label', 'legend', 'li', 'link', 'main', 'map', 'mark', 'em', 'menu', 'meta', 'meter', 'nav', 'noframes', 'noscript', 'object', 'ol', 'optgroup', 'option', 'output', 'p', 'param', 'pre', 'progress', 'q', 'rp', 'rp', 'rt', 'rt', 'ruby', 'ruby', 's', 'samp', 'script', 'section', 'section', 'select', 'small', 'source', 'source', 'video', 'audio', 'span', 'strike', 'strong', 'style', 'sub', 'summary', 'summary', 'sup', 'table', 'tbody', 'td', 'textarea', 'tfoot', 'th', 'thead', 'time', 'template', 'title', 'tr', 'track', 'track', 'tt', 'u', 'ul', 'var', 'video', 'video', 'wbr',
+                 'h1', 'h2','h3','h4','h5','h6']
+    filter_list.update(set(net_label))
 
 
     for sentence in sen_tokenize_res:
@@ -161,6 +165,8 @@ The team also found that authors based in countries eligible for the waiver prog
 
 Elsevier declined the Nature news team’s request for comment on this study.
 '''
+
+
 
     #print(extract_from_para(example_note, 15))
     note = Note("sdad", "sdad", example_note, None, 2000)
