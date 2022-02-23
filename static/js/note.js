@@ -238,7 +238,8 @@ const app = Vue.createApp({
       var note = {};
       note = this.updateNote(cur_note);
 
-      var note_bk = this.saveNoteBk (note);
+      this.saveNoteBk (note);
+      var note_bk = this.getNote(note.noteId);
       
       this.saveNoteJs (note_bk, index);
 
