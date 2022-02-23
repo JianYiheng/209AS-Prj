@@ -115,31 +115,16 @@ const app = Vue.createApp({
 
       return JSON.parse(sessionStorage.getItem(noteid));
     },
-    newNote() {
-      let {
-        title,
-        body
-      } = this.newnote;
-      
-      this.notes.push({
-        title,
-        body
-      });
-      
-      this.newnote.title = "New Title";
-      this.newnote.body = "New Note";
-
-    },
     recoverCache()
     {
       var storage=window.localStorage;
       for (var i = 0; i < localStorage.length; i++) {
-      var key = localStorage.key(i); //获取本地存储的Key
+        var key = localStorage.key(i); //获取本地存储的Key
     
-      this.notes.push({
-          title:key,
-          body: localStorage.getItem(key)
-        });
+        this.notes.push({
+            title:key,
+            body: localStorage.getItem(key)
+          });
       }
     },
 
@@ -181,6 +166,11 @@ const app = Vue.createApp({
         // alert(error.data);
       })
     },
+
+    resetNewNote () {
+      this.newnote.title = "New Note Title";
+      this.newnote.body = "New Note Text";
+    },
     updateNote (note) {
       if (note.noteId == '') {
         var noteId = (+new Date).toString(36).slice(-8);
@@ -204,15 +194,16 @@ const app = Vue.createApp({
     },
     saveNoteJs (note, index) {
       if (index == -1) {
-        this.notes.push(note);
+        this.notes.push(Object.create(note));
       } else {
-        this.notes[index] = note;
+        this.notes[index] = Object.create(note);
       }
     },
     saveNote (note, index) {
       note = this.updateNote(note);
       this.saveNoteJs (note, index);
       this.saveNoteBk (note);
+      this.resetNetNew ();
     },
 
     removeNoteJs (index) {
