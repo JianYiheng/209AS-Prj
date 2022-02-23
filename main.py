@@ -35,22 +35,21 @@ class UploadNoteHandler(RequestHandler):
         elif int(dtype) == 3:
             note_id = self.get_argument('noteId')
             del id_note[note_id]
-            to_remove = None
-            print("****************************************")
-            print(keyword_note)
-            print("****************************************")
+            to_remove_key = []
             for key in keyword_note:
-                print("========================================")
-                print(keyword_note[key])
-                print("========================================")
-                if keyword_note[key]["noteId"] == note_id:
-                    to_remove = key
-                    break
-            if to_remove is not None:
-                del keyword_note[to_remove]
+                dict_item = keyword_note[key]
+                to_remove = []
+                for var in dict_item:
+                    if var not in id_note:
+                        to_remove.append(var)
+                        # del dict_item[var]
+                for var in to_remove:
+                    del dict_item[var]
 
-        print(keyword_note)
-        print(id_note)
+                if len(dict_item) == 0:
+                    to_remove_key.append(key)
+            for key in to_remove_key:
+                del keyword_note[key]
         return
 
     def get(self):
