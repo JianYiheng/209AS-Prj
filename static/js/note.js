@@ -135,6 +135,7 @@ const app = Vue.createApp({
       })
       .then(function (response) {
         this.keywords = response.data;
+        console.log(this.keywords);
       })
       .catch(function (error) {
         // alert(error.data);
@@ -214,7 +215,7 @@ const app = Vue.createApp({
       var new_note = {};
       new_note =  Object.assign({}, note);
       axios({
-        method: 'get',
+        method: 'post',
         url: 'getNote',
         data: note,
         params: {'type': 2}

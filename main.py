@@ -14,11 +14,13 @@ class HTMLHandler(RequestHandler):
 class UploadNoteHandler(RequestHandler):
     def post(self):
         dtype = self.get_argument('type')
+        print(dtype)
 
-
-        if dtype == 2:
+        if int(dtype) == 2:
             data = json.loads(self.request.body.decode("utf-8"))
+            # data = json.loads(self.get_argument('data').decode("utf-8"))
             print(data)
+            print(dtype, '????')
 
             note_title = data.get("title")
             note_body = data.get("body")
@@ -27,8 +29,12 @@ class UploadNoteHandler(RequestHandler):
 
             note_obj = Note(note_id, note_title, note_body, None, note_updatetime)
             save_note_and_keywords(note_obj)
-            self.write('OK')
-        elif dtype == 3:
+
+            ret_dict = {'data': id_note[note_id].gen_dict()}
+            ret_json = json.dumps(ret_dict)
+            self.write(ret_json)
+
+        elif int(dtype) == 3:
             note_id = self.get_argument('noteId')
             del id_note[note_id]
             to_remove = None
@@ -39,12 +45,14 @@ class UploadNoteHandler(RequestHandler):
             if to_remove is not None:
                 del keyword_note[to_remove]
 
+        print(keyword_note)
+        print(id_note)
         return
 
     def get(self):
         dtype = self.get_argument('type')
 
-        if dtype == 0:
+        if int(dtype) == 0:
             ret_list = []
             for key in id_note:
                 ret_list.append(id_note[key].gen_dict())
@@ -52,7 +60,7 @@ class UploadNoteHandler(RequestHandler):
             ret_json = json.dumps(ret_dict)
             self.write(ret_json)
             return
-        elif dtype == 1:
+        elif int(dtype) == 1:
             note_id = self.get_argument('noteId')
             ret_dict = {'data': id_note[note_id]}
             ret_json = json.dumps(ret_dict)
