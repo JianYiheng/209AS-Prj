@@ -163,16 +163,6 @@ const app = Vue.createApp({
       .catch(function (error) {})
     },
 
-    deleteNote (noteId) {
-      axios({
-        method: 'post',
-        url: '/getNote',
-        data: noteId,
-        params: {'type': 3}
-      })
-      .then(function (response) {})
-      .catch(function (error) {});
-    },
 
     async selectByKw (kw) {
       this.notes = await axios({
@@ -235,7 +225,6 @@ const app = Vue.createApp({
       note = this.updateNote(cur_note);
 
       var note_bk =  await this.saveNoteBk (note);
-      //var note_bk =              //this.getNote(note.noteId);
       
       this.saveNoteJs (note_bk, index);
 
@@ -246,25 +235,31 @@ const app = Vue.createApp({
       console.log(this.keywords);
     },
 
-    removeNoteJs (index) {
-      this.notes.splice(index, 1);
-    },
-    removeNoteBk (noteId) {
-      axios({
+    /* ************************************ */
+    /* DELETE function                      */
+    async deleteNoteBk (noteId) {
+      var res = await axios({
         method: 'post',
         url: '/getNote',
-        params: 3
+        params: {
+          'type': 3,
+          'noteId': noteId
+        }
       })
-      .then(function (response) {})
-      .catch(function (error) {})
+      .then(function (response) {
+        return response.data;
+      })
+      .catch(function (error) {});
+
+      return res;
     },
-    removeNote(note, index) {
-      var storage=window.localStorage;
-      storage.removeItem(this.notes[index]['title']);
-
-      this.removeNoteJs(index);
-      this.removeNoteBk(note.noteId);
-
+    deleteNoteJs (index) {
+      this.notes.splice(index, 1);
+    },
+    deleteNote (note, index) {
+      var res = this.deleteNoteBk (note.noteId);
+      this.deleteNoteJs (index);
+      this.getKwAll();
     },
   },
 });

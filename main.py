@@ -36,7 +36,13 @@ class UploadNoteHandler(RequestHandler):
             note_id = self.get_argument('noteId')
             del id_note[note_id]
             to_remove = None
+            print("****************************************")
+            print(keyword_note)
+            print("****************************************")
             for key in keyword_note:
+                print("========================================")
+                print(keyword_note[key])
+                print("========================================")
                 if keyword_note[key]["noteId"] == note_id:
                     to_remove = key
                     break
