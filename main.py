@@ -92,8 +92,11 @@ class getKwHandler(RequestHandler):
 
         kw = data.get("data")
 
-
         search_res = search(kw)
+
+        print("****************************************")
+        print(search_res)
+        print("****************************************")
         ret_dict = {'data':search_res}
         ret_json = json.dumps(ret_dict)
         self.write(ret_json)

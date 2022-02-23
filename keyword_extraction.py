@@ -126,7 +126,7 @@ def search(keyword):
     for note in notes:
         ans = note.body.find(keyword)
         if (ans != -1):
-            res.append(note)
+            res.append(note.gen_dict())
     return res
 
 

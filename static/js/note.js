@@ -168,7 +168,9 @@ const app = Vue.createApp({
       this.notes = await axios({
         method: 'post',
         url: '/getKw',
-        data: kw
+        data: {
+          'data': kw
+        }
       })
       .then(function (response) {
         return response.data.data;
@@ -185,8 +187,6 @@ const app = Vue.createApp({
       var note = {};
       note = Object.assign({}, cur_note);
       
-      //console.log(note); /////////////////////////////////
-
       if (note.noteId == '') {
         var noteId = (+new Date).toString(36).slice(-8);
         note.noteId = noteId;
@@ -261,6 +261,7 @@ const app = Vue.createApp({
       this.deleteNoteJs (index);
       this.getKwAll();
     },
+    /* ************************************ */
   },
 });
 
