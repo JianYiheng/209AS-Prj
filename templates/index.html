@@ -74,10 +74,7 @@
       <q-card v-for="(note, index) in notes" class="my-card" style="width: 500px">
       <q-card-section class="bg-primary text-white">
         <div>
-          <div class="text-h6" v-if="existTemp(index)">
-            [[ loadTemp(index)['title'] ]]
-          </div>
-          <div class="text-h6" v-else>
+          <div class="text-h6">
             [[ note.title ]]
           </div>
           <q-popup-edit v-model="note.title"

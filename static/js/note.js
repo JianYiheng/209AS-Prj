@@ -38,15 +38,15 @@ const app = Vue.createApp({
     },
     getIdbyIndex (index) {
       if (index==-1) {
-        return this.newnote.noteid;
+        return this.newnote.noteId;
       } else {
-        return this.notes[index].noteid;
+        return this.notes[index].noteId;
       }
     },
     initNote () {
       for (const note of this.notes) {
-        if (sessionStorage.getItem(note.noteid)) {
-          const savenote = JSON.parse(sessionStorage.getItem(note.noteid));
+        if (sessionStorage.getItem(note.noteId)) {
+          const savenote = JSON.parse(sessionStorage.getItem(note.noteId));
           note.title = savenote.title;
           note.body = savenote.body;
           note.updateDate = savenote.udpateDate;
@@ -54,14 +54,14 @@ const app = Vue.createApp({
       }
     },
     existTemp (index) {
-      var noteid;
+      var noteId;
       if (index==-1) {
-        noteid = this.newnote.noteid;
+        noteId = this.newnote.noteId;
       } else {
-        noteid = this.notes[index].noteid;
+        noteId = this.notes[index].noteId;
       }
-      console.log(noteid);
-      if (sessionStorage.getItem(noteid)) {
+      console.log(noteId);
+      if (sessionStorage.getItem(noteId)) {
         console.log('yes');
         return true;
       } else {
@@ -71,17 +71,17 @@ const app = Vue.createApp({
     },
     saveTempTitle (value, initialValue, index) {
       const date = new Date();
-      var body, noteid;
+      var body, noteId;
       if (index==-1) {
         this.newnote.editStatus = true;
         body = this.newnote.body;
-        noteid = this.newnote.noteid;
+        noteId = this.newnote.noteId;
       } else {
         this.notes[index].editStatus = true;
         body = this.notes[index].body;
-        noteid = this.notes[index].noteid;
+        noteId = this.notes[index].noteId;
       }
-      sessionStorage.setItem(noteid, JSON.stringify({
+      sessionStorage.setItem(noteId, JSON.stringify({
         title: value,
         body: body,
         updateDate: date.getTime()
@@ -89,31 +89,31 @@ const app = Vue.createApp({
     },
     saveTempBody (value, initialValue, index) {
       const date = new Date();
-      var title, noteid;
+      var title, noteId;
       if (index==-1) {
         this.newnote.editStatus = true;
         title = this.newnote.title;
-        noteid = this.newnote.noteid;
+        noteId = this.newnote.noteId;
       } else {
         this.notes[index].editStatus = true;
         title = this.notes[index].title;
-        noteid = this.notes[index].noteid;
+        noteId = this.notes[index].noteId;
       }
-      sessionStorage.setItem(noteid, JSON.stringify({
+      sessionStorage.setItem(noteId, JSON.stringify({
         title: title,
         body: value,
         updateDate: date.getTime()
       }));
     },
     loadTemp (index) {
-      var noteid;
+      var noteId;
       if (index==-1) {
-        noteid = this.newnote.noteid;
+        noteId = this.newnote.noteId;
       } else {
-        noteid = this.notes[index].noteid;
+        noteId = this.notes[index].noteId;
       }
 
-      return JSON.parse(sessionStorage.getItem(noteid));
+      return JSON.parse(sessionStorage.getItem(noteId));
     },
     recoverCache()
     {
