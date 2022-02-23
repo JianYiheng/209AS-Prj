@@ -4,28 +4,152 @@ const app = Vue.createApp({
   },
   data() {
     return {
+      tag: {
+        name: '',
+        num: ''
+      },
+      tags: [{
+        name: 'abc',
+        num: 6
+      }, {
+        name: 'def',
+        num: 12
+      }],
       note: {
+        noteId: '',
         title: '',
-        text: ''
+        body: '',
+        keywords: '',
+        updateDate: '',
+        editStatus: false,
       },
-      newnote: {
-        title: 'New Title',
-        body: 'New Note'
-      },
-      notes: []
+      notes: [
+        {
+          noteId: '01010011',
+          title: 'demo title',
+          body: 'demo body',
+          keywords: ['a', 'b', 'c', 'd'],
+          updateDate: 'demo date',
+          editStatus: false,
+        },
+        {
+          noteId: '01010011',
+          title: 'demo title',
+          body: 'demo body',
+          keywords: 'abcd',
+          updateDate: 'demo date',
+          editStatus: false,
+        },
+        {
+          noteId: '01010011',
+          title: 'demo title',
+          body: 'demo body',
+          keywords: 'abcd',
+          updateDate: 'demo date',
+          editStatus: false,
+        }
+      ]
     };
   },
+<<<<<<< HEAD
   mounted:function()
   {
     this.recoverCache();
   },
 
+=======
+  mounted: function () {
+    this.initNote();
+  },
+>>>>>>> web
   methods: {
+    display(value) {
+      console.log(value);
+    },
+    getIdbyIndex (index) {
+      if (index==-1) {
+        return this.newnote.noteid;
+      } else {
+        return this.notes[index].noteid;
+      }
+    },
+    initNote () {
+      for (const note of this.notes) {
+        if (sessionStorage.getItem(note.noteid)) {
+          const savenote = JSON.parse(sessionStorage.getItem(note.noteid));
+          note.title = savenote.title;
+          note.body = savenote.body;
+          note.updateDate = savenote.udpateDate;
+        }
+      }
+    },
+    existTemp (index) {
+      var noteid;
+      if (index==-1) {
+        noteid = this.newnote.noteid;
+      } else {
+        noteid = this.notes[index].noteid;
+      }
+      console.log(noteid);
+      if (sessionStorage.getItem(noteid)) {
+        console.log('yes');
+        return true;
+      } else {
+        console.log('no');
+        return false;
+      }
+    },
+    saveTempTitle (value, initialValue, index) {
+      const date = new Date();
+      var body, noteid;
+      if (index==-1) {
+        this.newnote.editStatus = true;
+        body = this.newnote.body;
+        noteid = this.newnote.noteid;
+      } else {
+        this.notes[index].editStatus = true;
+        body = this.notes[index].body;
+        noteid = this.notes[index].noteid;
+      }
+      sessionStorage.setItem(noteid, JSON.stringify({
+        title: value,
+        body: body,
+        updateDate: date.getTime()
+      }));
+    },
+    saveTempBody (value, initialValue, index) {
+      const date = new Date();
+      var title, noteid;
+      if (index==-1) {
+        this.newnote.editStatus = true;
+        title = this.newnote.title;
+        noteid = this.newnote.noteid;
+      } else {
+        this.notes[index].editStatus = true;
+        title = this.notes[index].title;
+        noteid = this.notes[index].noteid;
+      }
+      sessionStorage.setItem(noteid, JSON.stringify({
+        title: title,
+        body: value,
+        updateDate: date.getTime()
+      }));
+    },
+    loadTemp (index) {
+      var noteid;
+      if (index==-1) {
+        noteid = this.newnote.noteid;
+      } else {
+        noteid = this.notes[index].noteid;
+      }
+
+      return JSON.parse(sessionStorage.getItem(noteid));
+    },
     newNote() {
       let {
         title,
         body
-      } = this.newnote
+      } = this.newnote;
       
       this.notes.push({
         title,
@@ -35,6 +159,7 @@ const app = Vue.createApp({
       this.newnote.title = "New Title";
       this.newnote.body = "New Note";
 
+<<<<<<< HEAD
       axios.post('/update', {
         title: title,
         body: body,
@@ -82,6 +207,8 @@ const app = Vue.createApp({
 
       var storage=window.localStorage;
       storage[title] = body;
+=======
+>>>>>>> web
     },
     removeNote(index) {
       var storage=window.localStorage;

@@ -3,8 +3,6 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <!-- <meta http-equiv="Access-Control-Allow-Origin" content="http://localhost:3000"> -->
-<!--   <link rel="stylesheet" type="text/css" href="C:/Users/xushe/Desktop/Tornado+VUE/static/css/style.css"> -->
 
   <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900|Material+Icons" rel="stylesheet" type="text/css">
   <link href="https://cdn.jsdelivr.net/npm/quasar@2.4.13/dist/quasar.prod.css" rel="stylesheet" type="text/css">
@@ -16,84 +14,81 @@
 <body>
 
   <div id="q-app" style="min-height: 100vh;">
+  
+    <div class="q-pa-md q-gutter-md">
+        <q-btn v-for="(kw, index) in tags" color="teal" size="sm" @click="selectKw(kw)">
+          [[ keyword.name ]]
+          <q-badge color="orange" floating transparent>
+            [[ keyword.num ]]
+          </q-badge>
+        </q-btn>
+    </div>
+
+  <q-separator color="orange" inset></q-separator>
+
     <div class="q-pa-md row items-start q-gutter-md">
-      <q-card class="my-card full-height" inline style="width: 500px">
-        <q-card-section class="bg-primary text-white">
-          <div class="text-h6">[[ newnote.title ]]</div>
-          <q-popup-edit v-model="newnote.title" auto-save v-slot="scope">
-                <q-input v-model="scope.value"
-                    filled edense autofocus counter 
-                    @keyup.enter="scope.set"
-                    label='title'></q-input>
-          </q-popup-edit>
-        </q-card-section>
-
-        <q-card-section>
-          <div v-html="newnote.body"></div>
-              <q-popup-edit
-                buttons
-                v-model="newnote.body"
-                v-slot="scope"
-              >
-                <q-editor
-                  v-model="scope.value"
-                  min-height="8rem"
-                  autofocus
-                  @keyup.enter.stop
-                  placeholder="Input the text"
-                ></q-editor>
-              </q-popup-edit>
-        </q-card-section>
-
-        <q-separator></q-separator>
-
-        <q-card-actions align='right'>
-          <q-btn flat @click="newNote(note)">New</q-btn>
-        </q-card-actions>
-
-      </q-card>
-      
       <q-card v-for="(note, index) in notes" class="my-card" style="width: 500px">
-        <q-card-section class="bg-primary text-white">
-          <div class="text-h6">[[ note.title ]]</div>
-          <q-popup-edit v-model="note.title" title="Edit the title" auto-save v-slot="scope">
-                <q-input v-model="scope.value" dense autofocus counter @keyup.enter="scope.set"></q-input>
+      <q-card-section class="bg-primary text-white">
+        <div>
+          <div class="text-h6" v-if="existTemp(index)">
+            [[ loadTemp(index)['title'] ]]
+          </div>
+          <div class="text-h6" v-else>
+            [[ note.title ]]
+          </div>
+          <q-popup-edit v-model="note.title"
+            auto-save
+            title="Edit the title"
+            v-slot="scope"
+            @save="(val, initialValue) => saveTempTitle(val, initialValue, index)"
+            >
+                <q-input v-model="scope.value"
+                dense autofocus counter 
+                @keyup.enter="scope.set"></q-input>
           </q-popup-edit>
-          <div class="text-subtitle2">by  [[ note.author ]]</div>
-        </q-card-section>
+        </div>
+          <q-badge v-for="(kw, index) in note.keywords"
+            align="middle"
+            color="orange"
+            rounded>
+            [[ kw ]]
+          </q-badge>
+      </q-card-section>
   
-        <q-card-section>
-          <div v-html="note.body"></div>
-              <q-popup-edit
-                buttons
-                v-model="note.body"
-                v-slot="scope"
-              >
-                <q-editor
-                  v-model="scope.value"
-                  min-height="8rem"
-                  autofocus
-                  @keyup.enter.stop
-                ></q-editor>
-              </q-popup-edit>
-        </q-card-section>
-        
-        <q-separator></q-separator>
-        
-        <q-card-actions align='right'>
-          <q-btn flat @click="removeNote(index)">delete</q-btn>
-          <q-btn flat @click="updateNote(index)">update</q-btn>
-        </q-card-actions>
+      <q-card-section>
+        <div v-html="note.body"></div>
+            <q-popup-edit
+              buttons
+              v-model="note.body"
+              v-slot="scope"
+              auto-save
+              @save="(val, initialValue) => saveTempBody(val, initialValue, index)"
+            >
+              <q-editor
+                v-model="scope.value"
+                min-height="8rem"
+                autofocus
+                @keyup.enter.stop
+              ></q-editor>
+            </q-popup-edit>
+      </q-card-section>
+    
+      <q-separator></q-separator>
+    
+      <q-card-actions align='right'>
+        <q-btn flat @click="removeNote(index)">delete</q-btn>
+        <q-btn flat @click="updateNote(index)">update</q-btn>
+      </q-card-actions>
   
       </q-card>
-  
     </div>
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/vue@3/dist/vue.global.prod.js" ></script>
   <script src="https://cdn.jsdelivr.net/npm/quasar@2.4.13/dist/quasar.umd.prod.js"></script>
   <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-  <script src="{{ static_url('js/note.js') }}" type="text/javascript"></script>
+  <script src="../static/js/note.js"></script>
+  <!-- <script src="{{ static_url('js/note.js') }}" type="text/javascript"></script> -->
 
 
 </body>
