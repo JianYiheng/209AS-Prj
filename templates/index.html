@@ -36,7 +36,6 @@
             auto-save
             title="Edit the title"
             v-slot="scope"
-            @save="(val, initialValue) => saveTempTitle(val, initialValue, index)"
             >
                 <q-input v-model="scope.value"
                 dense autofocus counter 
@@ -51,7 +50,6 @@
                 v-model="newnote.body"
                 v-slot="scope"
                 auto-save
-                @save="(val, initialValue) => saveTempBody(val, initialValue, index)"
               >
                 <q-editor
                   v-model="scope.value"
@@ -81,7 +79,6 @@
             auto-save
             title="Edit the title"
             v-slot="scope"
-            @save="(val, initialValue) => saveTempTitle(val, initialValue, index)"
             >
                 <q-input v-model="scope.value"
                 dense autofocus counter 
@@ -103,7 +100,6 @@
               v-model="note.body"
               v-slot="scope"
               auto-save
-              @save="(val, initialValue) => saveTempBody(val, initialValue, index)"
             >
               <q-editor
                 v-model="scope.value"
