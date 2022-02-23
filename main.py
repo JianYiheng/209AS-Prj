@@ -72,8 +72,10 @@ class getKwHandler(RequestHandler):
     def get(self):
         ret_list = []
         for key in id_note:
-            ret_list.append(id_note[key].gen_dict())
-        ret_dict = {'data':ret_list}
+            for keyword in id_note[key].gen_dict()['keywords']:
+                ret_list.append(keyword)
+        ret_list = list(set(ret_list))
+        ret_dict = {'data': ret_list}
         ret_json = json.dumps(ret_dict)
         self.write(ret_json)
         return

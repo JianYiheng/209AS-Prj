@@ -29,7 +29,7 @@ const app = Vue.createApp({
     };
   },
   mounted: function () {
-    this.getAllKw();
+    this.getKwAll();
     this.getAllNotes();
   },
   methods: {
@@ -128,31 +128,26 @@ const app = Vue.createApp({
       }
     },
 
-    getAllKw () {
-      axios({
+    async getKwAll () {
+      this.keywords = await axios({
         method: 'get',
         url: '/getKw'
       })
       .then(function (response) {
-        this.keywords = response.data.data;
-        console.log(this.keywords);
+        return response.data.data;
       })
-      .catch(function (error) {
-        // alert(error.data);
-      })
+      .catch(function (error) {})
     },
-    getAllNotes () {
-      axios({
+    async getAllNotes () {
+      this.notes = await axios({
         method: 'get',
         url: '/getNote',
         params: {'type': 0}
       })
       .then(function (response) {
-        this.notes = response.data.data;
+        return response.data.data;
       })
-      .catch(function (error) {
-        // alert(error.data);
-      })
+      .catch(function (error) {})
     },
 
     getNote (noteId) {
@@ -179,18 +174,16 @@ const app = Vue.createApp({
       .catch(function (error) {});
     },
 
-    selectByKw (kw) {
-      axios({
+    async selectByKw (kw) {
+      this.notes = await axios({
         method: 'post',
         url: '/getKw',
         data: kw
       })
       .then(function (response) {
-        this.notes = response.data;
+        return response.data.data;
       })
-      .catch(function (error) {
-        // alert(error.data);
-      })
+      .catch(function (error) {})
     },
 
     resetNewNote () {
@@ -208,7 +201,7 @@ const app = Vue.createApp({
         var noteId = (+new Date).toString(36).slice(-8);
         note.noteId = noteId;
       }
-      note.updateData = Date.now();
+      note.updateDate = Date.now();
       return note;
     },
     async saveNoteBk (note) {
@@ -217,14 +210,11 @@ const app = Vue.createApp({
 
       new_note = await axios({
         method: 'post',
-        url: 'getNote',
+        url: '/getNote',
         data: note,
         params: {'type': 2}
       })
       .then(function (response) {
-        //new_note['keywords'] = response.data.data['keywords'];//.data;
-        console.log(response.data.data);
-        console.log('Call back data');
         return response.data.data
       })
       .catch(function (error) {})
@@ -247,15 +237,13 @@ const app = Vue.createApp({
       var note_bk =  await this.saveNoteBk (note);
       //var note_bk =              //this.getNote(note.noteId);
       
-      console.log(note_bk);
-      console.log('?');
-
       this.saveNoteJs (note_bk, index);
 
       this.resetNewNote ();
 
-      this.getAllKw();
-      console.log(note);
+      this.getKwAll();
+      console.log("keywords");
+      console.log(this.keywords);
     },
 
     removeNoteJs (index) {

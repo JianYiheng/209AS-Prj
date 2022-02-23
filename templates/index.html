@@ -17,10 +17,12 @@
   
     <div class="q-pa-md q-gutter-md">
         <q-btn v-for="(kw, index) in keywords" color="teal" size="sm" @click="selectByKw(kw)">
-          [[ kw.name ]]
+          [[ kw ]]
+          <!--
           <q-badge color="orange" floating transparent>
-            [[ kw.num ]]
+            [[ kw ]]
           </q-badge>
+          -->
         </q-btn>
     </div>
 
