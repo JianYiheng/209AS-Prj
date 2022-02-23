@@ -171,7 +171,13 @@ const app = Vue.createApp({
       this.newnote.title = "New Note Title";
       this.newnote.body = "New Note Text";
     },
-    updateNote (note) {
+    //updateNote (note) {
+    updateNote (cur_note) {
+      var note = {};
+      note = Object.assign({}, cur_note);
+      
+      //console.log(note); /////////////////////////////////
+
       if (note.noteId == '') {
         var noteId = (+new Date).toString(36).slice(-8);
         note.noteId = noteId;
@@ -180,6 +186,8 @@ const app = Vue.createApp({
       return note;
     },
     saveNoteBk (note) {
+      var new_note = {};
+      new_note =  Object.assign({}, note);
       axios({
         method: 'post',
         url: 'getNote',
@@ -193,17 +201,21 @@ const app = Vue.createApp({
       })
     },
     saveNoteJs (note, index) {
+      var new_obj;
+        new_obj = Object.assign({}, note);
       if (index == -1) {
-        this.notes.push(Object.create(note));
+        this.notes.push(new_obj);
       } else {
-        this.notes[index] = Object.create(note);
+        this.notes[index] = new_obj;
       }
     },
-    saveNote (note, index) {
-      note = this.updateNote(note);
+    saveNote (cur_note, index) {
+      var note = {};
+      note = this.updateNote(cur_note);
       this.saveNoteJs (note, index);
       this.saveNoteBk (note);
-      this.resetNetNew ();
+      this.resetNewNote ();
+      console.log(note);
     },
 
     removeNoteJs (index) {
