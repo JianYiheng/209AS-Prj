@@ -134,7 +134,7 @@ const app = Vue.createApp({
         url: '/getKw'
       })
       .then(function (response) {
-        this.keywords = response.data;
+        this.keywords = response.data.data;
         console.log(this.keywords);
       })
       .catch(function (error) {
@@ -148,7 +148,7 @@ const app = Vue.createApp({
         params: {'type': 0}
       })
       .then(function (response) {
-        this.notes = response.data;
+        this.notes = response.data.data;
       })
       .catch(function (error) {
         // alert(error.data);

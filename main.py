@@ -14,13 +14,11 @@ class HTMLHandler(RequestHandler):
 class UploadNoteHandler(RequestHandler):
     def post(self):
         dtype = self.get_argument('type')
-        print(dtype)
 
         if int(dtype) == 2:
             data = json.loads(self.request.body.decode("utf-8"))
             # data = json.loads(self.get_argument('data').decode("utf-8"))
             print(data)
-            print(dtype, '????')
 
             note_title = data.get("title")
             note_body = data.get("body")
