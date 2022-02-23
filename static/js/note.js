@@ -4,17 +4,19 @@ const app = Vue.createApp({
   },
   data() {
     return {
-      tag: {
+      keyword: {
         name: '',
         num: ''
       },
-      tags: [{
-        name: 'abc',
-        num: 6
-      }, {
-        name: 'def',
-        num: 12
-      }],
+      keywords: [],
+      newnote: {
+        noteId: '',
+        title: 'New Note Title',
+        body: 'New Note Text',
+        keywords: '',
+        updateDate: '',
+        editStatus: false,
+      },
       note: {
         noteId: '',
         title: '',
@@ -23,45 +25,13 @@ const app = Vue.createApp({
         updateDate: '',
         editStatus: false,
       },
-      notes: [
-        {
-          noteId: '01010011',
-          title: 'demo title',
-          body: 'demo body',
-          keywords: ['a', 'b', 'c', 'd'],
-          updateDate: 'demo date',
-          editStatus: false,
-        },
-        {
-          noteId: '01010011',
-          title: 'demo title',
-          body: 'demo body',
-          keywords: 'abcd',
-          updateDate: 'demo date',
-          editStatus: false,
-        },
-        {
-          noteId: '01010011',
-          title: 'demo title',
-          body: 'demo body',
-          keywords: 'abcd',
-          updateDate: 'demo date',
-          editStatus: false,
-        }
-      ]
+      notes: []
     };
   },
-<<<<<<< HEAD
-  mounted:function()
-  {
-    this.recoverCache();
-  },
-
-=======
   mounted: function () {
-    this.initNote();
+    this.getAllKw();
+    this.getAllNotes();
   },
->>>>>>> web
   methods: {
     display(value) {
       console.log(value);
@@ -159,79 +129,114 @@ const app = Vue.createApp({
       this.newnote.title = "New Title";
       this.newnote.body = "New Note";
 
-<<<<<<< HEAD
-      axios.post('/update', {
-        title: title,
-        body: body,
-        index: 0 
-      })
-      .then(function (response) {
-        console.log(response.data);
-        return response.data;
-      })
-      .catch(function (error) {
-        alert(error.data);
-      })
-      var storage=window.localStorage;
-      storage[title] = body;
-
-    },
-    updateNote(index) {
-      let {
-        title,
-        body
-      } = this.notes[index]
-
-      // axios.post('/update', {
-      //   title: title,
-      //   body: body,
-      //   index: index
-      // })
-      axios({
-        method:'post',
-        url: '/update',
-        data:{
-          title: title,
-          body: body,
-          index: index,
-        },
-        contentType:'application/x-www-form-urlencoded'
-      })
-      .then(function (response) {
-        console.log(response.data);
-        return response.data;
-      })
-      .catch(function (error) {
-        alert(error.data);
-      });
-
-      var storage=window.localStorage;
-      storage[title] = body;
-=======
->>>>>>> web
-    },
-    removeNote(index) {
-      var storage=window.localStorage;
-      storage.removeItem(this.notes[index]['title']);
-      this.notes.splice(index, 1);
-
     },
     recoverCache()
     {
       var storage=window.localStorage;
       for (var i = 0; i < localStorage.length; i++) {
-    var key = localStorage.key(i); //获取本地存储的Key
+      var key = localStorage.key(i); //获取本地存储的Key
     
-    this.notes.push({
-        title:key,
-        body: localStorage.getItem(key)
-      });
+      this.notes.push({
+          title:key,
+          body: localStorage.getItem(key)
+        });
       }
+    },
+
+    getAllKw () {
+      axios({
+        method: 'get',
+        url: '/getKw'
+      })
+      .then(function (response) {
+        this.keywords = response.data;
+      })
+      .catch(function (error) {
+        // alert(error.data);
+      })
+    },
+    getAllNotes () {
+      axios({
+        method: 'get',
+        url: '/getNote',
+        params: 0
+      })
+      .then(function (response) {
+        this.notes = response.data;
+      })
+      .catch(function (error) {
+        // alert(error.data);
+      })
+    },
+    selectByKw (kw) {
+      axios({
+        method: 'post',
+        url: '/getKw',
+        data: kw
+      })
+      .then(function (response) {
+        this.notes = response.data;
+      })
+      .catch(function (error) {
+        // alert(error.data);
+      })
+    },
+    updateNote (note) {
+      if (note.noteId == '') {
+        var noteId = (+new Date).toString(36).slice(-8);
+        note.noteId = noteId;
+      }
+      note.updateData = Date.now();
+      return note;
+    },
+    saveNoteBk (note) {
+      axios({
+        method: 'post',
+        url: 'getNote',
+        data: note
+      })
+      .then(function (response) {
+
+      })
+      .catch(function (error) {
+        // alert(error.data);
+      })
+    },
+    saveNoteJs (note, index) {
+      if (index == -1) {
+        this.notes.push(note);
+      } else {
+        this.notes[index] = note;
+      }
+    },
+    saveNote (note, index) {
+      note = this.updateNote(note);
+      this.saveNoteJs (note, index);
+      this.saveNoteBk (note);
+    },
+
+    removeNoteJs (index) {
+      this.notes.splice(index, 1);
+    },
+    removeNoteBk (noteId) {
+      axios({
+        method: 'post',
+        url: '/getNote',
+        params: 3
+      })
+      .then(function (response) {})
+      .catch(function (error) {})
+    },
+    removeNote(note, index) {
+      var storage=window.localStorage;
+      storage.removeItem(this.notes[index]['title']);
+
+      this.removeNoteJs(index);
+      this.removeNoteBk(note.noteId);
+
     },
   },
 });
 
 app.use(Quasar, { config: {} });
 app.mount("#q-app");
-
-

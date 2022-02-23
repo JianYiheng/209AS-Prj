@@ -16,15 +16,59 @@
   <div id="q-app" style="min-height: 100vh;">
   
     <div class="q-pa-md q-gutter-md">
-        <q-btn v-for="(kw, index) in tags" color="teal" size="sm" @click="selectKw(kw)">
-          [[ keyword.name ]]
+        <q-btn v-for="(kw, index) in keywords" color="teal" size="sm" @click="selectByKw(kw)">
+          [[ kw.name ]]
           <q-badge color="orange" floating transparent>
-            [[ keyword.num ]]
+            [[ kw.num ]]
           </q-badge>
         </q-btn>
     </div>
 
-  <q-separator color="orange" inset></q-separator>
+    <q-separator color="orange" inset></q-separator>
+
+    <div class="q-pa-md row items-start q-gutter-md">
+      <q-card class="my-card" style="width: 500px">
+        <q-card-section class="bg-primary text-white">
+          <div class="text-h6">
+            [[ newnote.title ]]
+          </div>
+          <q-popup-edit v-model="newnote.title"
+            auto-save
+            title="Edit the title"
+            v-slot="scope"
+            @save="(val, initialValue) => saveTempTitle(val, initialValue, index)"
+            >
+                <q-input v-model="scope.value"
+                dense autofocus counter 
+                @keyup.enter="scope.set"></q-input>
+          </q-popup-edit>
+        </q-card-section>
+  
+        <q-card-section>
+          <div v-html="newnote.body"></div>
+              <q-popup-edit
+                buttons
+                v-model="newnote.body"
+                v-slot="scope"
+                auto-save
+                @save="(val, initialValue) => saveTempBody(val, initialValue, index)"
+              >
+                <q-editor
+                  v-model="scope.value"
+                  min-height="8rem"
+                  autofocus
+                  @keyup.enter.stop
+                ></q-editor>
+              </q-popup-edit>
+        </q-card-section>
+        <q-separator></q-separator>
+    
+        <q-card-actions align='right'>
+          <!--<q-btn flat @click="removeNote(index)">Reset</q-btn>-->
+          <q-btn flat @click="saveNote(newnote, -1)">Add</q-btn>
+        </q-card-actions>
+      </q-card>
+    </div>
 
     <div class="q-pa-md row items-start q-gutter-md">
       <q-card v-for="(note, index) in notes" class="my-card" style="width: 500px">
@@ -77,7 +121,7 @@
     
       <q-card-actions align='right'>
         <q-btn flat @click="removeNote(index)">delete</q-btn>
-        <q-btn flat @click="updateNote(index)">update</q-btn>
+        <q-btn flat @click="saveNote(note, index)">update</q-btn>
       </q-card-actions>
   
       </q-card>
@@ -87,8 +131,8 @@
   <script src="https://cdn.jsdelivr.net/npm/vue@3/dist/vue.global.prod.js" ></script>
   <script src="https://cdn.jsdelivr.net/npm/quasar@2.4.13/dist/quasar.umd.prod.js"></script>
   <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-  <script src="../static/js/note.js"></script>
-  <!-- <script src="{{ static_url('js/note.js') }}" type="text/javascript"></script> -->
+  <script src="{{ static_url('js/note.js') }}" type="module"></script>
+  <!-- <script src="{{ static_url('js/connect.js') }}" type="submodule"></script> -->
 
 
 </body>
