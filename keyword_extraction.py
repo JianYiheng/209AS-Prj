@@ -85,8 +85,19 @@ class Note:
         self.keywords = keywords
         self.updateDate = updateDate
 
+    def gen_dict(self):
+        ret = dict()
+        ret["title"] = self.title
+        ret["body"] = self.body
+        ret["noteId"] = self.noteId
+        ret["updateDate"] = self.updateDate
+        ret["keyword"] = self.self.keywords
+        return ret
+
 id_note = {}
 keyword_note = {}
+
+
 def save_or_update_note(note):
     id_note[note.noteId] = note
 
@@ -152,14 +163,16 @@ Elsevier declined the Nature news team’s request for comment on this study.
 '''
 
     #print(extract_from_para(example_note, 15))
-    note = Note(10, "sdad", example_note, None, 2000)
+    note = Note("sdad", "sdad", example_note, None, 2000)
     save_note_and_keywords(note)
-    note2 = Note(1, "sad", "The", None, 23)
+    note2 = Note("sdad", "sad", "The", None, 23)
     save_or_update_note(note2)
    # print(keyword_note.get("income").get(10).body)
 
     search_res = search("The")
     print(search_res[0].body)
+
+    pass
     
 
 

@@ -2,6 +2,8 @@ from tornado.web import Application, RequestHandler
 from tornado.ioloop import IOLoop
 import os
 import json
+from keyword_extraction import id_note, keyword_note, Note
+from keyword_extraction import extract_from_para, save_note_and_keywords, search, save_or_update_keywords
 
 saved_notes = []
 
@@ -12,20 +14,67 @@ class HTMLHandler(RequestHandler):
 class UpdateHandler(RequestHandler):
     def post(self):
         data = json.loads(self.request.body.decode("utf-8"))
-        # print(data)
-        # print(data.get("title"))
+        print(data)
 
+        note_title = data.get("title")
+        note_body = data.get("body")
+        note_id = data.get("noteId")
+        note_updatetime = data.get("updateDate")
 
+        note_obj = Note(note_id, note_title, note_body, None, note_updatetime)
+        save_note_and_keywords(note_obj)
         self.write('OK')
-        # print({k:''.join(v) for k,v in .items()})
         return
-    get = post
+
+    def get(self):
+        ret_list = []
+        for key in id_note:
+            ret_list.append(id_note[key].gen_dict())
+        ret_dict = {'data': ret_list}
+        ret_json = json.dumps(ret_dict)
+        self.write(ret_json)
+        return
 
     def options(self, *args, **kwargs):
         pass
 
+
+
+
+
+class getKwHandler(RequestHandler):
+    def get(self):
+        ret_list = []
+        for key in id_note:
+            ret_list.append(id_note[key].gen_dict())
+        ret_dict = {'data':ret_list}
+        ret_json = json.dumps(ret_dict)
+        self.write(ret_json)
+        return
+
+    def post(self):
+        data = json.loads(self.request.body.decode("utf-8"))
+        print(data)
+
+        kw = data.get("data")
+
+
+        search_res = search(kw)
+        ret_dict = {'data':search_res}
+        ret_json = json.dumps(ret_dict)
+        self.write(ret_json)
+
+        # self.write('OK')
+        return
+
+
+
 def make_app():
-    handlers = [(r"/", HTMLHandler), (r"/update", UpdateHandler)]
+    handlers = [(r"/", HTMLHandler),
+                (r"/getNote", UpdateHandler),
+                (r"/getKw", getKwHandler)
+                #(r"/getKwAll", getKwHandler)
+                ]
     settings = {
         "template_path": os.path.join(os.path.dirname(__file__), "templates"),
         "static_path": os.path.join(os.path.dirname(__file__), "static")
