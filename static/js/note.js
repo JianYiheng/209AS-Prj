@@ -215,6 +215,7 @@ const app = Vue.createApp({
       this.saveNoteJs (note, index);
       this.saveNoteBk (note);
       this.resetNewNote ();
+      getKwAll();
       console.log(note);
     },
 
