@@ -214,17 +214,19 @@ const app = Vue.createApp({
       var new_note = {};
       new_note =  Object.assign({}, note);
       axios({
-        method: 'post',
+        method: 'get',
         url: 'getNote',
         data: note,
         params: {'type': 2}
       })
-      .then(function (response) {})
+      .then(function (response) {
+        return response.data;
+      })
       .catch(function (error) {})
     },
     saveNoteJs (note, index) {
       var new_obj;
-        new_obj = Object.assign({}, note);
+      new_obj = Object.assign({}, note);
       if (index == -1) {
         this.notes.push(new_obj);
       } else {
@@ -234,9 +236,9 @@ const app = Vue.createApp({
     saveNote (cur_note, index) {
       var note = {};
       note = this.updateNote(cur_note);
-      this.saveNoteBk (note);
+
+      var note_bk = this.saveNoteBk (note);
       
-      var note_bk = this.getNote(note.noteId);
       this.saveNoteJs (note_bk, index);
 
       this.resetNewNote ();
