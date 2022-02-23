@@ -158,8 +158,8 @@ const app = Vue.createApp({
       axios({
         method: 'get',
         url: '/getNote',
-        data: noteId,
-        params: {'type': 1}
+        
+        params: {'type': 1, 'noteId': noteId}
       })
       .then(function (response) {
         return response.data;
@@ -241,7 +241,7 @@ const app = Vue.createApp({
 
       this.resetNewNote ();
 
-      this.getKwAll();
+      this.getAllKw();
       console.log(note);
     },
 

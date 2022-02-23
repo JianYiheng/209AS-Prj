@@ -13,27 +13,51 @@ class HTMLHandler(RequestHandler):
 
 class UploadNoteHandler(RequestHandler):
     def post(self):
-        data = json.loads(self.request.body.decode("utf-8"))
-        print(data)
+        dtype = self.get_argument('type')
 
-        note_title = data.get("title")
-        note_body = data.get("body")
-        note_id = data.get("noteId")
-        note_updatetime = data.get("updateDate")
 
-        note_obj = Note(note_id, note_title, note_body, None, note_updatetime)
-        save_note_and_keywords(note_obj)
-        self.write('OK')
+        if dtype == 2:
+            data = json.loads(self.request.body.decode("utf-8"))
+            print(data)
+
+            note_title = data.get("title")
+            note_body = data.get("body")
+            note_id = data.get("noteId")
+            note_updatetime = data.get("updateDate")
+
+            note_obj = Note(note_id, note_title, note_body, None, note_updatetime)
+            save_note_and_keywords(note_obj)
+            self.write('OK')
+        elif dtype == 3:
+            note_id = self.get_argument('noteId')
+            del id_note[note_id]
+            to_remove = None
+            for key in keyword_note:
+                if keyword_note[key]["noteId"] == note_id:
+                    to_remove = key
+                    break
+            if to_remove is not None:
+                del keyword_note[to_remove]
+
         return
 
     def get(self):
-        ret_list = []
-        for key in id_note:
-            ret_list.append(id_note[key].gen_dict())
-        ret_dict = {'data': ret_list}
-        ret_json = json.dumps(ret_dict)
-        self.write(ret_json)
-        return
+        dtype = self.get_argument('type')
+
+        if dtype == 0:
+            ret_list = []
+            for key in id_note:
+                ret_list.append(id_note[key].gen_dict())
+            ret_dict = {'data': ret_list}
+            ret_json = json.dumps(ret_dict)
+            self.write(ret_json)
+            return
+        elif dtype == 1:
+            note_id = self.get_argument('noteId')
+            ret_dict = {'data': id_note[note_id]}
+            ret_json = json.dumps(ret_dict)
+            self.write(ret_json)
+            return
 
     def options(self, *args, **kwargs):
         pass
