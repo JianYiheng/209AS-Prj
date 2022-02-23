@@ -207,7 +207,7 @@ const app = Vue.createApp({
         var noteId = (+new Date).toString(36).slice(-8);
         note.noteId = noteId;
       }
-      note.updateData = Date.now();
+      note.updateDate = Date.now();
       return note;
     },
     saveNoteBk (note) {
@@ -215,7 +215,7 @@ const app = Vue.createApp({
       new_note =  Object.assign({}, note);
       axios({
         method: 'get',
-        url: 'getNote',
+        url: '/getNote',
         data: note,
         params: {'type': 2}
       })
