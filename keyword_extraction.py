@@ -10,8 +10,8 @@ import string
 from sklearn.feature_extraction.text import TfidfVectorizer
 from nltk.stem.porter import PorterStemmer
 
-import enchant
-d = enchant.Dict('en_US')
+# import enchant
+# d = enchant.Dict('en_US')
 
 def extract_from_para(note, top_k=5):
     stop_words = set(stopwords.words('english'))
@@ -57,8 +57,8 @@ def extract_from_para(note, top_k=5):
                 extracted.append(a)
             elif b == 'NNP' and len(a) > 1:
                 NER.append(a)
-            elif not d.check('Hello') and len(a) > 1:
-                NER.append(a)
+            # elif not d.check(a) and len(a) > 1:
+            #     NER.append(a)
 
         final_res = NER + extracted
         # print('Extracted Keywords: ', ' '.join(final_res))
