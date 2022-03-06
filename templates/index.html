@@ -14,10 +14,10 @@
 <body>
 
   <div id="q-app" style="min-height: 100vh;">
-  
+
     <div class="q-pa-md q-gutter-md">
-        <q-btn v-for="(kw, index) in keywords" color="teal" size="sm" @click="selectByKw(kw)">
-          [[ kw ]]
+        <q-btn v-for="(kw, idx) in keywords" :color="kw.color" size="sm" @click="selectByKw(kw, idx)">
+          [[ kw.name ]]
           <!--
           <q-badge color="orange" floating transparent>
             [[ kw ]]
@@ -62,7 +62,7 @@
               </q-popup-edit>
         </q-card-section>
         <q-separator></q-separator>
-    
+
         <q-card-actions align='right'>
           <!--<q-btn flat @click="removeNote(index)">Reset</q-btn>-->
           <q-btn flat @click="saveNote(newnote, -1)">Add</q-btn>

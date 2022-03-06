@@ -57,7 +57,7 @@ def extract_from_para(note, top_k=5):
                 extracted.append(a)
             elif b == 'NNP' and len(a) > 1:
                 NER.append(a)
-            elif not d.check('Hello') and len(a) > 1:
+            elif not d.check(a) and len(a) > 1:
                 NER.append(a)
 
         final_res = NER + extracted

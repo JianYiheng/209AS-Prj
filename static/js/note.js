@@ -6,7 +6,8 @@ const app = Vue.createApp({
     return {
       keyword: {
         name: '',
-        num: ''
+        num: '',
+        color: ''
       },
       keywords: [],
       newnote: {
@@ -14,6 +15,7 @@ const app = Vue.createApp({
         title: 'New Note Title',
         body: 'New Note Text',
         keywords: '',
+        subekeywords: '',
         updateDate: '',
         editStatus: false,
       },
@@ -22,15 +24,16 @@ const app = Vue.createApp({
         title: '',
         body: '',
         keywords: '',
+        subekeywords: '',
         updateDate: '',
         editStatus: false,
       },
       notes: []
     };
   },
-  mounted: function () {
-    this.getKwAll();
-    this.getAllNotes();
+  async mounted() {
+    this.getKwAllFull();
+    this.notes = await this.getAllNotes();
   },
   methods: {
     display(value) {
@@ -120,7 +123,7 @@ const app = Vue.createApp({
       var storage=window.localStorage;
       for (var i = 0; i < localStorage.length; i++) {
         var key = localStorage.key(i); //获取本地存储的Key
-    
+
         this.notes.push({
             title:key,
             body: localStorage.getItem(key)
@@ -128,8 +131,10 @@ const app = Vue.createApp({
       }
     },
 
-    async getKwAll () {
-      this.keywords = await axios({
+    /* ****************************************** */
+    // Request all keywords from backend
+    getKwAll () {
+      return axios({
         method: 'get',
         url: '/getKw'
       })
@@ -138,8 +143,20 @@ const app = Vue.createApp({
       })
       .catch(function (error) {})
     },
-    async getAllNotes () {
-      this.notes = await axios({
+
+    // add color pripority to keywords
+    async getKwAllFull () {
+        let kw_array = await this.getKwAll();
+        for (var i=0; i<kw_array.length; i++) {
+          this.keywords.push({
+            name: kw_array[i],
+            color: 'primary'
+          });
+        }
+    },
+    /* ****************************************** */
+    getAllNotes () {
+      return axios({
         method: 'get',
         url: '/getNote',
         params: {'type': 0}
@@ -151,10 +168,10 @@ const app = Vue.createApp({
     },
 
     getNote (noteId) {
-      axios({
+      return axios({
         method: 'get',
         url: '/getNote',
-        
+
         params: {'type': 1, 'noteId': noteId}
       })
       .then(function (response) {
@@ -163,13 +180,32 @@ const app = Vue.createApp({
       .catch(function (error) {})
     },
 
+    /* ********************************************** */
+    // Highlight the selected keywords
+    selectByKwHg (kw, idx) {
+      if (kw.color=='primary') {
+        kw.color = 'amber';
+        this.keywords = this.keywords.filter(item=>item!==kw);
+        this.keywords.unshift(kw);
+      } else {
+        kw.color = 'primary';
+        this.keywords = this.keywords.filter(item=>item!==kw);
+        this.keywords.push(kw);
+      }
+    },
 
-    async selectByKw (kw) {
-      this.notes = await axios({
+    selectByKwArray () {
+        let kwArray = this.keywords.filter(item=>item.color=='amber');
+        return kwArray.map(item=>item.color);
+    },
+
+    // Send selected keywords to backend
+    selectByKwBk (kw_array) {
+      return axios({
         method: 'post',
         url: '/getKw',
         data: {
-          'data': kw
+          'data': kw_array
         }
       })
       .then(function (response) {
@@ -178,15 +214,25 @@ const app = Vue.createApp({
       .catch(function (error) {})
     },
 
+    async selectByKw(kw, idx) {
+        this.selectByKwHg(kw, idx);
+        let kw_array = this.selectByKwArray ();
+        this.notes = await this.selectByKwBk(kw_array);
+    },
+    /* ********************************************** */
+
+    /* ********************************************** */
+    /* Reset New Note  */
     resetNewNote () {
       this.newnote.title = "New Note Title";
       this.newnote.body = "New Note Text";
     },
+    /* ********************************************** */
     //updateNote (note) {
     updateNote (cur_note) {
       var note = {};
       note = Object.assign({}, cur_note);
-      
+
       if (note.noteId == '') {
         var noteId = (+new Date).toString(36).slice(-8);
         note.noteId = noteId;
@@ -194,11 +240,11 @@ const app = Vue.createApp({
       note.updateDate = Date.now();
       return note;
     },
-    async saveNoteBk (note) {
+    saveNoteBk (note) {
       var new_note = {};
       new_note =  Object.assign({}, note);
 
-      new_note = await axios({
+      return axios({
         method: 'post',
         url: '/getNote',
         data: note,
@@ -208,12 +254,11 @@ const app = Vue.createApp({
         return response.data.data
       })
       .catch(function (error) {})
-
-      return new_note;
     },
     saveNoteJs (note, index) {
       var new_obj;
       new_obj = Object.assign({}, note);
+      console.log(new_obj)
       if (index == -1) {
         this.notes.push(new_obj);
       } else {
@@ -224,21 +269,19 @@ const app = Vue.createApp({
       var note = {};
       note = this.updateNote(cur_note);
 
-      var note_bk =  await this.saveNoteBk (note);
-      
+      var note_bk = await this.saveNoteBk (note);
+
       this.saveNoteJs (note_bk, index);
 
       this.resetNewNote ();
 
-      this.getKwAll();
-      console.log("keywords");
-      console.log(this.keywords);
+      this.getKwAllFull();
     },
 
     /* ************************************ */
     /* DELETE function                      */
-    async deleteNoteBk (noteId) {
-      var res = await axios({
+    deleteNoteBk (noteId) {
+      return axios({
         method: 'post',
         url: '/getNote',
         params: {
@@ -256,7 +299,7 @@ const app = Vue.createApp({
     deleteNoteJs (index) {
       this.notes.splice(index, 1);
     },
-    deleteNote (note, index) {
+    async deleteNote (note, index) {
       var res = this.deleteNoteBk (note.noteId);
       this.deleteNoteJs (index);
       this.getKwAll();
