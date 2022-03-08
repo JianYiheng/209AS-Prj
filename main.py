@@ -89,9 +89,10 @@ class getKwHandler(RequestHandler):
         data = json.loads(self.request.body.decode("utf-8"))
         print(data)
 
-        kw = data.get("data")
+        kw_arr = data.get("data")
 
-        search_res = search(kw)
+
+        search_res = search(kw_arr)
 
         print("****************************************")
         print(search_res)

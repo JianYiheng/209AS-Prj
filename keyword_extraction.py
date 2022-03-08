@@ -132,13 +132,17 @@ def save_note_and_keywords(note):
     top_keywords, candidate_keywords = extract_from_para(note)
     save_or_update_keywords(note, top_keywords)
            
-def search(keyword):
+def search(keyword_arr):
     notes = []
     notes = id_note.values()
     res = []
     for note in notes:
-        ans = note.body.find(keyword)
-        if (ans != -1):
+        flag = 1
+        for keyword in keyword_arr:
+            flag = note.body.find(keyword)
+            if flag == -1:
+                break
+        if (flag != -1):
             res.append(note.gen_dict())
     return res
 
