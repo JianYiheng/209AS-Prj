@@ -196,7 +196,7 @@ const app = Vue.createApp({
 
     selectByKwArray () {
         let kwArray = this.keywords.filter(item=>item.color=='amber');
-        return kwArray.map(item=>item.color);
+        return kwArray.map(item=>item.name);
     },
 
     // Send selected keywords to backend
