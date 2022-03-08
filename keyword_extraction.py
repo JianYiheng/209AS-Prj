@@ -71,11 +71,17 @@ def extract_from_para(note, top_k=5):
     extract_for_all_paragraphs = sorted(extract_for_all_paragraphs, key=lambda x: -x[1])
     # print('\n' * 5)
 
-    ret = []
+    ret_top = []
     for i in range(min(top_k, len(extract_for_all_paragraphs))):
         # print(extract_for_all_paragraphs[i][0])
-        ret.append(extract_for_all_paragraphs[i][0])
-    return ret
+        ret_top.append(extract_for_all_paragraphs[i][0])
+
+    ret_candid = []
+    for i in range(min(top_k, len(extract_for_all_paragraphs)) + 1, len(extract_for_all_paragraphs)):
+        # print(extract_for_all_paragraphs[i][0])
+        ret_candid.append(extract_for_all_paragraphs[i][0])
+
+    return [ret_top, ret_candid]
 
 
 
@@ -123,8 +129,8 @@ def save_or_update_keywords(note, keywords):
 
 def save_note_and_keywords(note):
     save_or_update_note(note)
-    keywords = extract_from_para(note)
-    save_or_update_keywords(note, keywords)
+    top_keywords, candidate_keywords = extract_from_para(note)
+    save_or_update_keywords(note, top_keywords)
            
 def search(keyword):
     notes = []
