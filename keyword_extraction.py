@@ -81,6 +81,7 @@ def extract_from_para(note, top_k=5):
         # print(extract_for_all_paragraphs[i][0])
         ret_candid.append(extract_for_all_paragraphs[i][0])
 
+    # return {'arr_selec' : ret_top, 'arr_candid' : ret_candid}
     return [ret_top, ret_candid]
 
 
@@ -91,11 +92,12 @@ def extract_from_para(note, top_k=5):
 
 class Note:
     
-    def __init__(self, noteId, title, body, keywords, updateDate):
+    def __init__(self, noteId, title, body, keywords, candidate_keywords, updateDate):
         self.noteId = noteId
         self.title = title
         self.body = body
         self.keywords = keywords
+        self.candidate_keywords = candidate_keywords
         self.updateDate = updateDate
 
     def gen_dict(self):
@@ -105,6 +107,7 @@ class Note:
         ret["noteId"] = self.noteId
         ret["updateDate"] = self.updateDate
         ret["keywords"] = self.keywords
+        ret["candidate_keywords"] = self.candidate_keywords
         return ret
 
 id_note = {}
@@ -115,7 +118,7 @@ def save_or_update_note(note):
     id_note[note.noteId] = note
 
 
-def save_or_update_keywords(note, keywords):
+def save_or_update_keywords(note, keywords, candidate_keywords):
     note.keywords = []
     for keyword in keywords:
         note.keywords.append(keyword)
@@ -126,11 +129,15 @@ def save_or_update_keywords(note, keywords):
             id_notes = {}
             id_notes[note.noteId] = note
             keyword_note[keyword] = id_notes
+    note.candidate_keywords = candidate_keywords
+    return
+
 
 def save_note_and_keywords(note):
     save_or_update_note(note)
     top_keywords, candidate_keywords = extract_from_para(note)
-    save_or_update_keywords(note, top_keywords)
+    # top_keywords = extract_from_para(note)
+    save_or_update_keywords(note, top_keywords, candidate_keywords)
            
 def search(keyword_arr):
     notes = []
