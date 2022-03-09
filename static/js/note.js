@@ -147,6 +147,7 @@ const app = Vue.createApp({
     // add color pripority to keywords
     async getKwAllFull () {
         let kw_array = await this.getKwAll();
+        this.keywords = []
         for (var i=0; i<kw_array.length; i++) {
           this.keywords.push({
             name: kw_array[i],
