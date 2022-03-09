@@ -87,12 +87,28 @@
                 @keyup.enter="scope.set"></q-input>
           </q-popup-edit>
         </div>
-          <q-badge v-for="(kw, index) in note.keywords"
-            align="middle"
-            color="orange"
-            rounded>
-            [[ kw ]]
-          </q-badge>
+        <q-list bordered class="rounded-borders" >
+
+          <q-expansion-item expand-icon-toggle @show="note.isExpanded = true"
+                            @hide="note.isExpanded = false">
+            <template v-slot:header>
+              <q-item-section >
+                <div>
+                  <q-btn v-for="(kw, index) in note.keywords" color="deep-orange" @click="keyword2candidate(note, kw)" no-caps size= '9px' push>[[kw]]</q-btn>
+                </div>
+              </q-item-section>
+            </template>
+            <q-card>
+              <q-card-section>
+                <div>
+                  <q-btn v-for="(cd, index) in note.candidate_keywords" color="secondary"  @click="candidate2keyword(note, cd)" no-caps size= '9px' push>[[cd]]</q-btn>
+                </div>
+              </q-card-section>
+            </q-card>
+          </q-expansion-item>
+
+
+        </q-list>
       </q-card-section>
   
       <q-card-section>

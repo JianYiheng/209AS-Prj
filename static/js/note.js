@@ -27,6 +27,8 @@ const app = Vue.createApp({
         subekeywords: '',
         updateDate: '',
         editStatus: false,
+        candidate_keywords: '',
+        isExpanded:false
       },
       notes: []
     };
@@ -38,6 +40,17 @@ const app = Vue.createApp({
   methods: {
     display(value) {
       console.log(value);
+    },
+    keyword2candidate(note, kw) {
+      if (note.isExpanded) {
+        note.keywords = note.keywords.filter(item=>item!==kw);
+        note.candidate_keywords.unshift(kw);
+      }
+
+    },
+    candidate2keyword(note, cd) {
+      note.candidate_keywords = note.candidate_keywords.filter(item=>item!==cd);
+      note.keywords.push(cd);
     },
     getIdbyIndex (index) {
       if (index==-1) {
