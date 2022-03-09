@@ -53,12 +53,12 @@
                 v-slot="scope"
                 auto-save
               >
-                <q-editor
+                <q-input
                   v-model="scope.value"
                   min-height="8rem"
                   autofocus
                   @keyup.enter.stop
-                ></q-editor>
+                ></q-input>
               </q-popup-edit>
         </q-card-section>
         <q-separator></q-separator>
@@ -103,12 +103,12 @@
               v-slot="scope"
               auto-save
             >
-              <q-editor
+              <q-input
                 v-model="scope.value"
                 min-height="8rem"
                 autofocus
                 @keyup.enter.stop
-              ></q-editor>
+              ></q-input>
             </q-popup-edit>
       </q-card-section>
     
