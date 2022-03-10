@@ -28,7 +28,8 @@ const app = Vue.createApp({
         updateDate: '',
         editStatus: false,
         candidate_keywords: '',
-        isExpanded:false
+        isExpanded:false,
+        rewrite:false,
       },
       notes: []
     };

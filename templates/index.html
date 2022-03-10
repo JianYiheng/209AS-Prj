@@ -89,6 +89,13 @@
                 @keyup.enter="scope.set"></q-input>
           </q-popup-edit>
         </div>
+        <div>
+        <q-toggle
+                v-model="note.rewrite"
+                :label="note.rewrite == true ? `Update` : `Don't update`"
+                color="red"
+        ></q-toggle>
+        </div>
         <q-list bordered class="rounded-borders" >
 
           <q-expansion-item expand-icon-toggle @show="note.isExpanded = true"
