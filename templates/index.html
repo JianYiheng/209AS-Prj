@@ -94,14 +94,14 @@
         <div>
         <q-toggle
                 v-model="note.rewrite"
-                :label="note.rewrite == true ? `Update` : `Don't update`"
+                :label="note.rewrite == true ? `Update Keywords` : `Don't Update Keywords`"
                 color="red"
         ></q-toggle>
         </div>
         <q-list bordered class="rounded-borders" >
 
           <q-expansion-item expand-icon-toggle @show="note.isExpanded = true"
-                            @hide="note.isExpanded = false">
+                            @hide="note.isExpanded = false" header-class="bg-teal text-white">
             <template v-slot:header>
               <q-item-section >
                 <div>
@@ -109,7 +109,7 @@
                 </div>
               </q-item-section>
             </template>
-            <q-card>
+            <q-card class="bg-teal-2">
               <q-card-section>
                 <div>
                   <q-btn v-for="(cd, index) in note.candidate_keywords" color="secondary"  @click="candidate2keyword(note, cd)" no-caps size= '9px' push>[[cd]]</q-btn>
