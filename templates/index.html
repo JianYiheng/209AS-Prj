@@ -46,7 +46,7 @@
           </q-popup-edit>
 
         </q-card-section>
-  
+
         <q-card-section>
           <div v-html="newnote.body"></div>
               <q-popup-edit
@@ -57,6 +57,8 @@
               >
                 <q-input
                   v-model="scope.value"
+                  type="textarea"
+                  rows="500"
                   min-height="8rem"
                   autofocus
                   @keyup.enter.stop
@@ -130,6 +132,8 @@
             >
               <q-input
                 v-model="scope.value"
+                type="textarea"
+                rows=1000
                 min-height="8rem"
                 autofocus
                 @keyup.enter.stop
