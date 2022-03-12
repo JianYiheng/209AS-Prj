@@ -4,12 +4,8 @@ const app = Vue.createApp({
   },
   data() {
     return {
-      keyword: {
-        name: '',
-        num: '',
-        color: ''
-      },
       keywords: [],
+      keywordsAll: [],
       newnote: {
         noteId: '',
         title: 'New Note Title',
@@ -20,19 +16,9 @@ const app = Vue.createApp({
         rewrite:'',
         editStatus: false,
       },
-      note: {
-        noteId: '',
-        title: '',
-        body: '',
-        keywords: '',
-        subekeywords: '',
-        updateDate: '',
-        editStatus: false,
-        candidate_keywords: '',
-        isExpanded:false,
-        rewrite:false,
-      },
-      notes: []
+      notes: [],
+
+      searchInput: ''
     };
   },
   async mounted() {
@@ -169,6 +155,9 @@ const app = Vue.createApp({
             color: 'primary'
           });
         }
+
+        this.keywordsAll = this.keywords;
+
     },
     /* ****************************************** */
     getAllNotes () {
@@ -244,6 +233,8 @@ const app = Vue.createApp({
       this.newnote.body = "New Note Text";
     },
     /* ********************************************** */
+
+    /* ********************************************** */
     //updateNote (note) {
     updateNote (cur_note) {
       var note = {};
@@ -256,6 +247,10 @@ const app = Vue.createApp({
       note.updateDate = Date.now();
       return note;
     },
+    /* ************************************ */
+
+    /* ************************************ */
+    // Save note function
     saveNoteBk (note) {
       var new_note = {};
       new_note =  Object.assign({}, note);
@@ -293,6 +288,7 @@ const app = Vue.createApp({
 
       this.getKwAllFull();
     },
+    /* ************************************ */
 
     /* ************************************ */
     /* DELETE function                      */
@@ -318,10 +314,63 @@ const app = Vue.createApp({
     async deleteNote (note, index) {
       var res = this.deleteNoteBk (note.noteId);
       this.deleteNoteJs (index);
-      this.getKwAll();
+      this.keywords = this.getKwAllFull();
     },
     /* ************************************ */
+
+    /* ************************************ */
+    // Search function
+
+    searchKw() {
+      var kw_array = [];
+      console.log(this.keywordsAll);
+      for (const num in this.keywordsAll) {
+        let kw = this.keywordsAll[num];
+        if (kw.name.toLowerCase().includes(this.searchInput.toLowerCase())) {
+          kw_array.push(kw);
+        }
+      }
+      this.keywords = kw_array;
+    },
+
+    searchClear () {
+      this.keywords = this.keywordsAll;
+    },
+
+    searchNoteBk () {
+      return axios ({
+        method: 'post',
+        url: '/search',
+        data: {
+          'data': this.searchInput
+        }
+      })
+      .then (function (response) {
+        return response.data;
+      })
+      .catch (function (error) {})
+    },
+
+    searchNoteJs (notes) {
+      this.notes = notes;
+    },
+
+    async searchNote () {
+      let notes = await this.searchNoteBk ();
+      searchNoteJs (notes);
+    },
+
+    /* ************************************ */
   },
+  watch: {
+    searchInput (newsearchInput, oldsearchInput) {
+      if (this.searchInput) {
+        this.searchKw();
+      } else {
+        this.searchClear();
+      }
+    }
+  }
 });
 
 app.use(Quasar, { config: {} });
