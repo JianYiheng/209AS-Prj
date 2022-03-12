@@ -24,9 +24,17 @@ class UploadNoteHandler(RequestHandler):
             note_body = data.get("body")
             note_id = data.get("noteId")
             note_updatetime = data.get("updateDate")
-            # note_rewrite = data.get("rewrite")
+            note_rewrite = data.get("rewrite")
 
-            note_obj = Note(note_id, note_title, note_body, None, None, note_updatetime, True)
+            note_keywords = data.get("keywords")
+            note_candidate_keywords = data.get("candidate_keywords")
+
+
+            if note_rewrite == '':
+                note_obj = Note(note_id, note_title, note_body, None, None, note_updatetime, True)
+            else:
+                note_obj = Note(note_id, note_title, note_body, note_keywords, note_candidate_keywords, note_updatetime, note_rewrite)
+
             save_note_and_keywords(note_obj)
             note_obj.rewrite = False
 
