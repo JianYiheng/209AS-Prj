@@ -17,6 +17,7 @@ const app = Vue.createApp({
         keywords: '',
         subekeywords: '',
         updateDate: '',
+        rewrite:'',
         editStatus: false,
       },
       note: {
