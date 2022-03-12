@@ -346,7 +346,7 @@ const app = Vue.createApp({
         }
       })
       .then (function (response) {
-        return response.data;
+        return response.data.data;
       })
       .catch (function (error) {})
     },
@@ -357,7 +357,7 @@ const app = Vue.createApp({
 
     async searchNote () {
       let notes = await this.searchNoteBk ();
-      searchNoteJs (notes);
+      this.searchNoteJs (notes);
     },
 
     /* ************************************ */
