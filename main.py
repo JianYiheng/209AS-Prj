@@ -28,12 +28,14 @@ class UploadNoteHandler(RequestHandler):
 
             note_keywords = data.get("keywords")
             note_candidate_keywords = data.get("candidate_keywords")
+            note_isExpanded = data.get("isExpanded")
 
 
             if note_rewrite == '':
-                note_obj = Note(note_id, note_title, note_body, None, None, note_updatetime, True)
+                note_obj = Note(note_id, note_title, note_body, None, None, note_updatetime, True, note_isExpanded)
             else:
-                note_obj = Note(note_id, note_title, note_body, note_keywords, note_candidate_keywords, note_updatetime, note_rewrite)
+                note_obj = Note(note_id, note_title, note_body, note_keywords,
+                                note_candidate_keywords, note_updatetime, note_rewrite, note_isExpanded)
 
             save_note_and_keywords(note_obj)
             note_obj.rewrite = False

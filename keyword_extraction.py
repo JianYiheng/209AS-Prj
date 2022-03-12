@@ -92,7 +92,8 @@ def extract_from_para(note, top_k=5):
 
 class Note:
     
-    def __init__(self, noteId, title, body, keywords, candidate_keywords, updateDate, rewrite):
+    def __init__(self, noteId, title, body, keywords,
+                 candidate_keywords, updateDate, rewrite, isExpanded):
         self.noteId = noteId
         self.title = title
         self.body = body
@@ -100,6 +101,7 @@ class Note:
         self.candidate_keywords = candidate_keywords
         self.updateDate = updateDate
         self.rewrite = rewrite
+        self.isExpanded = isExpanded
 
     def gen_dict(self):
         ret = dict()
@@ -110,6 +112,7 @@ class Note:
         ret["keywords"] = self.keywords
         ret["candidate_keywords"] = self.candidate_keywords
         ret["rewrite"] = self.rewrite
+        ret["isExpanded"] = self.isExpanded
         return ret
 
 id_note = {}
