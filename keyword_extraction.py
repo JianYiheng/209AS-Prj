@@ -92,13 +92,14 @@ def extract_from_para(note, top_k=5):
 
 class Note:
     
-    def __init__(self, noteId, title, body, keywords, candidate_keywords, updateDate):
+    def __init__(self, noteId, title, body, keywords, candidate_keywords, updateDate, rewrite):
         self.noteId = noteId
         self.title = title
         self.body = body
         self.keywords = keywords
         self.candidate_keywords = candidate_keywords
         self.updateDate = updateDate
+        self.rewrite = rewrite
 
     def gen_dict(self):
         ret = dict()
@@ -108,6 +109,7 @@ class Note:
         ret["updateDate"] = self.updateDate
         ret["keywords"] = self.keywords
         ret["candidate_keywords"] = self.candidate_keywords
+        ret["rewrite"] = self.rewrite
         return ret
 
 id_note = {}
@@ -135,7 +137,10 @@ def save_or_update_keywords(note, keywords, candidate_keywords):
 
 def save_note_and_keywords(note):
     save_or_update_note(note)
-    top_keywords, candidate_keywords = extract_from_para(note)
+    if note.rewrite:
+        top_keywords, candidate_keywords = extract_from_para(note)
+    else:
+        top_keywords, candidate_keywords = note.keywords, note.candidate_keywords
     # top_keywords = extract_from_para(note)
     save_or_update_keywords(note, top_keywords, candidate_keywords)
            

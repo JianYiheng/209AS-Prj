@@ -24,9 +24,11 @@ class UploadNoteHandler(RequestHandler):
             note_body = data.get("body")
             note_id = data.get("noteId")
             note_updatetime = data.get("updateDate")
+            # note_rewrite = data.get("rewrite")
 
-            note_obj = Note(note_id, note_title, note_body, None, None, note_updatetime)
+            note_obj = Note(note_id, note_title, note_body, None, None, note_updatetime, True)
             save_note_and_keywords(note_obj)
+            note_obj.rewrite = False
 
             ret_dict = {'data': id_note[note_id].gen_dict()}
             ret_json = json.dumps(ret_dict)
