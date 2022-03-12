@@ -144,18 +144,33 @@ def save_note_and_keywords(note):
     # top_keywords = extract_from_para(note)
     save_or_update_keywords(note, top_keywords, candidate_keywords)
            
-def search(keyword_arr):
-    notes = []
+def search(keyword_arr, match_all = False):
     notes = id_note.values()
     res = []
-    for note in notes:
-        flag = 1
-        for keyword in keyword_arr:
-            flag = note.body.find(keyword)
-            if flag == -1:
-                break
-        if (flag != -1):
-            res.append(note.gen_dict())
+
+    if not match_all:
+        for note in notes:
+            flag = 1
+            for keyword in keyword_arr:
+                flag = note.body.find(keyword)
+                if flag == -1:
+                    break
+            if (flag != -1):
+                res.append(note.gen_dict())
+    else:
+        if ' ' in keyword_arr:
+            keyword_arr = keyword_arr.split(' ')
+        else:
+            keyword_arr = [keyword_arr]
+
+        for note in notes:
+            flag = 1
+            for keyword in keyword_arr:
+                flag = note.body.find(keyword)
+                if flag == -1:
+                    break
+            if (flag != -1):
+                res.append(note.gen_dict())
     return res
 
 

@@ -112,10 +112,29 @@ class getKwHandler(RequestHandler):
         self.write(ret_json)
         return
 
+class searchHandler(RequestHandler):
+    def get(self):
+        return
+
+    def post(self):
+        data = json.loads(self.request.body.decode("utf-8"))
+        print(data)
+        query = data.get("data")
+
+        search_res = search(query, match_all=True)
+
+        ret_dict = {'data':search_res}
+        ret_json = json.dumps(ret_dict)
+        self.write(ret_json)
+        print(ret_json)
+        return
+
+
 def make_app():
     handlers = [(r"/", HTMLHandler),
                 (r"/getNote", UploadNoteHandler),
-                (r"/getKw", getKwHandler)
+                (r"/getKw", getKwHandler),
+                (r"/search", searchHandler)
                 ]
     settings = {
         "template_path": os.path.join(os.path.dirname(__file__), "templates"),
