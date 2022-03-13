@@ -14,6 +14,32 @@
 <body>
 
   <div id="q-app" style="min-height: 100vh;">
+    <q-toolbar class="col-12 bg-primary row text-white" dark>
+        <q-btn flat round dense icon="menu"></q-btn>
+        <q-toolbar-title shrink>Bruin Note</q-toolbar-title>
+        <q-space></q-space>
+        <q-input
+          dark filled bottom-slots
+          v-model="searchInput"
+          placeholder="Search"
+          dense hide-bottom-space
+          class="search-field"
+          :class="{ 'sb-closed': sfClose }"
+          @blur="sfClose = true"
+          @focus="sfClose = false"
+          @keyup.enter="searchNote()"
+          @clear="searchClear()"
+          clearable
+        >
+          <template #prepend>
+            <q-icon name="search" class="cursor-pointer"></q-icon>
+          </template>
+        </q-input>
+        <!-- 
+        <q-btn flat round dense icon="bluetooth" class="q-mr-sm"></q-btn>
+        <q-btn flat round dense icon="more_vert"></q-btn>
+        -->
+    </q-toolbar>
 
     <div class="q-pa-md q-gutter-md">
         <q-btn v-for="(kw, idx) in keywords" :color="kw.color" size="sm" @click="selectByKw(kw, idx)">
